@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+}
+
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Albert Llongueras Website</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <!-- Add custom CSS here -->
+    <link href="/css/stylish-portfolio.css" rel="stylesheet">
+    <link href="/css/home.css" rel="stylesheet">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+        @RenderSection("head", true)
+    </head>
+    <body>
+	
+<div id="content">
+            @RenderSection("body", true)</div>
+<div id="footer">
+            <!-- Allow Child Templates to insert into the Footer (Required by child templates) -->
+            @RenderSection("footer", true)</div>
+</body>
+</html>
