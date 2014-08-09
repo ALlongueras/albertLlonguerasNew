@@ -1,0 +1,12 @@
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    foreach (var previa in Model.Content.Descendants().Where(x =>
+        x.DocumentTypeAlias == "Previa" 
+        && x.GetPropertyValue("isActive").ToString() == "True"
+        ))
+    {
+        <h1>@previa.GetPropertyValue("title")</h1>
+        <h2>@previa.GetPropertyValue("description")</h2>
+    }
+}

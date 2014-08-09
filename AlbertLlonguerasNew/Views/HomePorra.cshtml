@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Base.cshtml";
+}
+
+@section head
+{
+    
+}
+
+@section body {
+    @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
+}
+
+@section footer
+{
+    
+}

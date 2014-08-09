@@ -241,6 +241,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Partials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -301,6 +302,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\404handlers.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MacroPartials\Previa.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Base.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\HomePorra.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{6f1905d3-97c3-437f-a48e-c614049c714b}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

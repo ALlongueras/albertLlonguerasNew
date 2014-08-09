@@ -4,3 +4,6 @@ AlbertLlonguerasNew/umbraco
 AlbertLlonguerasNew/umbraco_client
 AlbertLlonguerasNew/obj/Debug/*
 packages/*
+AlbertLlonguerasNew/bin/*.pdb
+Library/obj/Debug/*
+Library/bin/Debug/*.pdb
