@@ -7,3 +7,7 @@ packages/*
 AlbertLlonguerasNew/bin/*.pdb
 Library/obj/Debug/*
 Library/bin/Debug/*.pdb
+Library/bin/*
+Library/obj/*
+AlbertLlonguerasNew/obj/*
+Library/bin/*

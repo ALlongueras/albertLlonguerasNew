@@ -1,18 +1,52 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@using Library.Businness
+@using Library.Helpers;
+@using AlbertLlonguerasNew.Models
+@using umbraco.cms.businesslogic.datatype
+@using umbraco.editorControls.SettingControls
+@using Member = umbraco.cms.businesslogic.member.Member
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
     Layout = "Base.cshtml";
 }
 
 @section head
 {
-    
+
 }
 
 @section body {
+    @Html.Partial("SignInForm", new SignInModel())
     @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
+    @{
+        if (Members.IsLoggedIn())
+        {
+            var name = Membership.GetUserNameByEmail(Member.GetCurrentMember().Email);
+            <p>@name</p>
+            if (Membership.GetUser(name) != null)
+            {
+                @Html.Partial("CreatePorra", new NewPorraModel
+                {
+                    Player = name,
+                    PorraNode = Utils.GetPlayerNode(Model, name),
+                    MatchIdentifier = Library.Businness.PorraManager.GetMatchIdentifier(Model.Content)
+                })
+            }
+            if (name == "albert@albertllongueras.cat")
+            {
+  @Html.Partial("CreatePorra", new NewPorraModel
+                {
+                    Player = "master",
+                    PorraNode = PorraManager.GetMatchNode(Model.Content),
+                    MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content)
+                })
+            }
+        }
+        
+    }
+
 }
 
 @section footer
 {
-    
+
 }

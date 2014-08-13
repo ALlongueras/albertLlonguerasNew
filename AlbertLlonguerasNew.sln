@@ -2,8 +2,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbertLlonguerasNew", "AlbertLlonguerasNew\AlbertLlonguerasNew.csproj", "{19A1C0FF-20DE-4C78-A343-F5DE51718AD5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6F1905D3-97C3-437F-A48E-C614049C714B} = {6F1905D3-97C3-437F-A48E-C614049C714B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{6F1905D3-97C3-437F-A48E-C614049C714B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7660FF44-4A4D-4EA1-99E0-78E05745CE68}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
