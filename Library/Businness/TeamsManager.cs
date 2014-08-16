@@ -14,8 +14,8 @@ namespace Library.Businness
     {
         private static Dictionary<string,List<string>> GetTeams()
         {
-            string path = Path.Combine(System.Environment.CurrentDirectory, "json\\teams.json");
-            using (var reader = new StreamReader("../json/teams.json"))
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "json\\teams.json");
+            using (var reader = new StreamReader(path))
             {
                 string json = reader.ReadToEnd();
                 var jsonTeams = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string,List<string>>>(json);

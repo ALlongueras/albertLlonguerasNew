@@ -1,6 +1,8 @@
 ﻿@using System.Linq.Expressions
 @using AlbertLlonguerasNew.Controllers
 @using AlbertLlonguerasNew.Models
+@using Library.Businness
+@using Library.Helpers
 @using umbraco.cms.businesslogic.web
 @using umbraco.BusinessLogic;
 @using Member = umbraco.cms.businesslogic.member.Member
@@ -31,8 +33,7 @@
     }
 }
 @{
-    if (TempData["PorraSuccess"] != null && Boolean.Parse(TempData["PorraSuccess"].ToString())
-        || TempData["MatchSuccess"] != null && Boolean.Parse(TempData["MatchSuccess"].ToString()))
+    if (TempData["PorraSuccess"] != null && Boolean.Parse(TempData["PorraSuccess"].ToString()))
     {
     <p>@TempData["LocalTeam"]</p>
     <p>@TempData["LocalScore"]</p>
@@ -48,17 +49,26 @@
             DocumentType dt = DocumentType.GetByAlias("Porra");
             var currentUser = Member.GetCurrentMember();
             User author = new User(0);
-            var nodeName = string.Format("{0}-{1}-{2}", Member.GetCurrentMember().Email, Model.MatchIdentifier, DateTime.Now);
-            Document doc = TempData["PorraSuccess"] != null ? Document.MakeNew(@Model.MatchIdentifier, dt, currentUser.User, Model.PorraNode.Id) : new Document(1058);
-            if (TempData["PorraSuccess"] != null && Boolean.Parse(TempData["PorraSuccess"].ToString()))
-            {
+            //var nodeName = string.Format("{0}-{1}-{2}", Member.GetCurrentMember().Email, Model.MatchIdentifier, DateTime.Now);
+            Document doc = Document.MakeNew(@Model.MatchIdentifier, dt, currentUser.User, Model.PorraNode.Id);
+            //if (TempData["PorraSuccess"] != null && Boolean.Parse(TempData["PorraSuccess"].ToString()))
+            //{
                 doc.getProperty("porraIdentifier").Value = Model.MatchIdentifier;
-            }
+            //}
             doc.getProperty("localTeam").Value = TempData["LocalTeam"];
             doc.getProperty("localScore").Value = TempData["LocalScore"];
             doc.getProperty("visitorTeam").Value = TempData["VisitorTeam"];
             doc.getProperty("visitorScore").Value = TempData["VisitorScore"];
             doc.Publish(author);
+
+            @*if (TempData["PorraSuccess"] == null)
+            {
+                var informationList = PorraManager.GetInformationOfPlayers(Utils.GetRootNode(Model.PorraNode));
+                foreach (var playerInformation in informationList)
+                {
+  <p>Global Puntuation of @playerInformation.PlayerName is @playerInformation.Information.OldInformation.GlobalPuntuation</p>
+                }
+            }*@
         }
     }
 }

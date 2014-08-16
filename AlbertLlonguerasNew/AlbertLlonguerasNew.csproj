@@ -215,10 +215,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\NewPorraController.cs" />
+    <Compile Include="Controllers\NewResultController.cs" />
     <Compile Include="Controllers\SignInFormController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\NewResultModel.cs" />
     <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Models\NewPorraModel.cs" />
     <Compile Include="Models\SignInModel.cs" />
@@ -336,6 +338,12 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Page.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Partials\CreateResult.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj">
       <Project>{6f1905d3-97c3-437f-a48e-c614049c714b}</Project>
       <Name>Library</Name>
@@ -357,7 +365,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>59477</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:3370/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

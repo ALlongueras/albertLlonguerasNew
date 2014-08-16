@@ -1,28 +1,225 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-//using Umbraco.Core.Models;
-//using umbraco.MacroEngines;
-//using Umbraco.Web;
+using System.Text.RegularExpressions;
+using System.Web.UI;
+using Library.Helpers;
+using Umbraco.Core;
 using Umbraco.Web;
 using Umbraco.Core.Models;
+using Library.Models;
+using Umbraco.Web.UI.Umbraco.Dialogs;
 
 namespace Library.Businness
 {
-    public class PorraManager
+    public class PorraManager : IPorraManager
     {
+
         public static string GetMatchIdentifier(IPublishedContent node)
         {
+            node = Utils.GetRootNode(node);
             var previaNode = GetMatchNode(node);
             return previaNode.GetPropertyValue("previaIdentifier").ToString();
         }
 
         public static IPublishedContent GetMatchNode(IPublishedContent node)
         {
+            node = Utils.GetRootNode(node);
             return node.DescendantsOrSelf("Previa").FirstOrDefault(x => x.GetPropertyValue("isActive").ToString() == "True");
+        }
+
+        public List<PlayersInformation> GetWholePuntuationOfPlayers(IEnumerable<IPublishedContent> nodes, string identifier, MatchResultModel matchResult)
+        {
+            var informationList = new List<PlayersInformation>();
+            informationList = this.GetInformationOfPlayers(nodes);
+            informationList = this.AssignDRSToPlayers(informationList);
+            var porras = this.GetNewResult(nodes, identifier);
+            informationList = this.UpdateResults(porras, informationList, matchResult);
+            this.ApplyDRSToPlayers(informationList);
+            return informationList;
+        }
+
+        public List<PlayersInformation> GetInformationOfPlayers(IEnumerable<IPublishedContent> nodes)
+        {
+            var informationList = new List<PlayersInformation>();
+            var currentMonth = DateTime.Now.Month;
+            nodes.ForEach(x =>
+                informationList.Add(new PlayersInformation
+                {
+                    PlayerName = x.Name,
+                    Information = new GlobalPlayerInformation
+                    {
+                        OldInformation = new PlayerInformation
+                        {
+                            Position = Int32.Parse(x.GetPropertyValue("position").ToString()),
+                            GlobalPuntuation = Int32.Parse(x.GetPropertyValue("globalPuntuation").ToString()),
+                            MonthPuntuation = Int32.Parse(x.GetPropertyValue(string.Format("month{0}", currentMonth)).ToString()),
+                            LastScore = Int32.Parse(x.GetPropertyValue("lastScore").ToString()),
+                            PorreroPuntuation = Int32.Parse(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString()),
+                        },
+                        NewInformation = new PlayerInformation()
+                    }
+                }));
+            return informationList;
+        }
+
+        public List<PlayersInformation> AssignDRSToPlayers(List<PlayersInformation> informationList)
+        {
+            var numberOfplayers = informationList.Count();
+            var iterator = 1;
+            while (iterator < numberOfplayers)
+            {
+                var currentPlayer = informationList[iterator].Information.OldInformation.GlobalPuntuation;
+                var comparisionPlayer = informationList[iterator - 1].Information.OldInformation.GlobalPuntuation;
+                if (comparisionPlayer - currentPlayer < 5)
+                {
+                    informationList[iterator].Information.NewInformation.HasDRS = true;
+                }
+                iterator++;
+            }
+            return informationList;
+        }
+
+        public Dictionary<string, BasePorraModel> GetNewResult(IEnumerable<IPublishedContent> playerNodes, string identifier)
+        {
+            var porraList = new Dictionary<string, BasePorraModel>();
+            foreach (var playerNode in playerNodes)
+            {
+                //Here it is necessary to do a validation regarding the porra date.
+                if (playerNode.Descendants().Any(x => x.GetPropertyValue("porraIdentifier").ToString() == identifier))
+                {
+                    var porraNode =
+                        playerNode.Descendants()
+                            .FirstOrDefault(x => x.GetPropertyValue("porraIdentifier").ToString() == identifier);
+                    porraList.Add(playerNode.Name, new BasePorraModel
+                    {
+                        LocalTeam = porraNode.GetPropertyValue("localTeam").ToString(),
+                        LocalScore = porraNode.GetPropertyValue("localScore").ToString(),
+                        VisitorTeam = porraNode.GetPropertyValue("visitorTeam").ToString(),
+                        VisitorScore = porraNode.GetPropertyValue("visitorScore").ToString()
+                    });
+                }
+            }
+            return porraList;
+        }
+
+        public List<PlayersInformation> UpdateResults(Dictionary<string, BasePorraModel> porras, List<PlayersInformation> informationList, MatchResultModel result)
+        {
+            foreach (var porra in porras)
+            {
+                var bonusMatchLocal = false;
+                var bonusMatchVisitant = false;
+                if (this.CheckIfTeamsAreCorrect(porra.Value, result))
+                {
+                    if (this.UpdatePorras(informationList, porra.Value.LocalScore, result.LocalScore, porra.Key))
+                    {
+                        CheckScorers(informationList, porra.Value.LocalScore, result.LocalScore, porra.Key);
+                        bonusMatchLocal = true;
+                    }
+                    if (this.UpdatePorras(informationList, porra.Value.VisitorScore, result.VisitorScore, porra.Key))
+                    {
+                        CheckScorers(informationList, porra.Value.VisitorScore, result.VisitorScore, porra.Key);
+                        bonusMatchVisitant = true;
+                    }
+                    if (bonusMatchLocal&&bonusMatchVisitant)
+                    {
+                        this.ApplyMatchBonus(informationList, porra.Key);
+                    }
+                }
+            }
+            return informationList;
+        }
+
+        private bool CheckIfTeamsAreCorrect(BasePorraModel porra, MatchResultModel matchResult)
+        {
+            return porra.LocalTeam == matchResult.LocalTeam
+                   && porra.VisitorTeam == matchResult.VisitorTeam;
+        }
+
+        private bool UpdatePorras(IEnumerable<PlayersInformation> informationList, string porraScores, string matchScores, string player)
+        {
+            var porraScoresCount = string.IsNullOrEmpty(porraScores) ? 0 : porraScores.Split(',').Count();
+            var matchScoresCount = string.IsNullOrEmpty(matchScores) ? 0 : matchScores.Split(',').Count();
+            if (porraScoresCount == matchScoresCount)
+            {
+                informationList.First(p => p.PlayerName == player).Information.NewInformation.LastScore++;
+                return true;
+            }
+            return false;
+        }
+
+        private void CheckScorers(IEnumerable<PlayersInformation> informationList, string porraScores, string matchScores, string player)
+        {
+            var porraScoresList = new List<string>();
+            var scores = string.IsNullOrEmpty(porraScores) ? null : porraScores.Split(',');
+            if (scores != null && scores.Any())
+            {
+                porraScoresList.AddRange(scores);
+
+            }
+            scores = string.IsNullOrEmpty(matchScores) ? null : matchScores.Split(',');
+            var matchScoresList = new List<string>();
+            if (scores != null && scores.Any())
+            {
+                matchScoresList.AddRange(scores);
+
+            }
+            var puntuation = new double();
+            foreach (var score in porraScoresList)
+            {
+                if (matchScoresList.Contains(score))
+                {
+                    puntuation += 0.5;
+                    matchScoresList.Remove(score);
+                }
+            }
+            informationList.First(p => p.PlayerName == player).Information.NewInformation.LastScore += (decimal)puntuation;
+        }
+
+        public void ApplyDRSToPlayers(IEnumerable<PlayersInformation> informationList)
+        {
+            foreach (var player in informationList.Where(p => p.Information.NewInformation.HasDRS))
+            {
+                player.Information.NewInformation.LastScore = player.Information.NewInformation.LastScore * (decimal)1.5;
+            }
+        }
+
+        private void ApplyMatchBonus(IEnumerable<PlayersInformation> informationList, string player)
+        {
+            informationList.FirstOrDefault(p => p.PlayerName == player).Information.NewInformation.LastScore++;
+        }
+
+        public void FinalOfMonth(IEnumerable<PlayersInformation> informationList, MatchResultModel matchResult)
+        {
+            if (!matchResult.FinalOfMonth) return;
+            var playersInformations = informationList as IList<PlayersInformation> ?? informationList.ToList();
+            var max = playersInformations.OrderByDescending(x => x.Information.OldInformation.MonthPuntuation).FirstOrDefault().Information.OldInformation.MonthPuntuation;
+            var porrerosOfMonth = new List<PlayersInformation>();
+            porrerosOfMonth.AddRange(playersInformations.Where(x => (x.Information.OldInformation.MonthPuntuation == max)));
+            var valueOfPorrero = (decimal)(5.0 / porrerosOfMonth.Count());
+            foreach (var playerInformation in informationList)
+            {
+                if (porrerosOfMonth.Contains(playerInformation))
+                {
+                    playerInformation.Information.NewInformation.LastScore += valueOfPorrero;
+                    playerInformation.Information.NewInformation.PorreroPuntuation =
+                        playerInformation.Information.OldInformation.PorreroPuntuation + valueOfPorrero;
+                }
+                else
+                {
+                    playerInformation.Information.NewInformation.PorreroPuntuation = playerInformation.Information.OldInformation.PorreroPuntuation;                    
+                }
+            }
+        }
+
+        public void UpdateNewScore(IEnumerable<PlayersInformation> informationList)
+        {
+            foreach (var playerInformation in informationList)
+            {
+                var lastScore = playerInformation.Information.NewInformation.LastScore;
+                playerInformation.Information.NewInformation.MonthPuntuation = playerInformation.Information.OldInformation.MonthPuntuation + lastScore;
+                playerInformation.Information.NewInformation.GlobalPuntuation = playerInformation.Information.OldInformation.GlobalPuntuation + lastScore;
+            }
         }
     }
 }

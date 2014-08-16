@@ -32,24 +32,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="interfaces, Version=1.0.5261.28126, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AlbertLlonguerasNew\bin\interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AlbertLlonguerasNew\bin\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AlbertLlonguerasNew\bin\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AlbertLlonguerasNew\bin\System.Web.Mvc.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,15 +57,31 @@
     <Reference Include="Umbraco.Core">
       <HintPath>..\AlbertLlonguerasNew\bin\Umbraco.Core.dll</HintPath>
     </Reference>
+    <Reference Include="umbraco.editorControls">
+      <HintPath>..\AlbertLlonguerasNew\bin\umbraco.editorControls.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines">
+      <HintPath>..\AlbertLlonguerasNew\bin\umbraco.MacroEngines.dll</HintPath>
+    </Reference>
     <Reference Include="Umbraco.Web.UI">
       <HintPath>..\AlbertLlonguerasNew\bin\Umbraco.Web.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UmbracoExamine, Version=0.6.0.28130, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AlbertLlonguerasNew\bin\UmbracoExamine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Businness\IPorraManager.cs" />
     <Compile Include="Businness\PorraManager.cs" />
     <Compile Include="Businness\TeamsManager.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Members\MembersManager.cs" />
+    <Compile Include="Models\BasePorraModel.cs" />
+    <Compile Include="Models\GlobalPlayerInformation.cs" />
+    <Compile Include="Models\MatchResultModel.cs" />
+    <Compile Include="Models\PlayerInformation.cs" />
+    <Compile Include="Models\PlayersInformation.cs" />
     <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

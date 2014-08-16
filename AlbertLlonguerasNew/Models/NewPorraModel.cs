@@ -10,20 +10,12 @@ using DropDownList = umbraco.editorControls.SettingControls.DropDownList;
 
 namespace AlbertLlonguerasNew.Models
 {
-    public class NewPorraModel
+    public class NewPorraModel : Library.Models.BasePorraModel
     {
         public string Player { get; set; }
 
         public IPublishedContent PorraNode { get; set; }
 
         public string MatchIdentifier { get; set; }
-
-        public string LocalTeam { get; set; }
-
-        public string LocalScore { get; set; }
-
-        public string VisitorTeam { get; set; }
-        
-        public string VisitorScore { get; set; }
     }
 }

@@ -1,0 +1,80 @@
+﻿@using AlbertLlonguerasNew.Controllers
+@using AlbertLlonguerasNew.Models
+@using Library.Businness
+@using Library.Models
+@model NewResultModel
+
+@{
+    if (TempData["ResultSuccess"] == null || !Boolean.Parse(TempData["ResultSuccess"].ToString()))
+    {
+        var ddl = TeamsManager.LoadTeams();
+        using (Html.BeginUmbracoForm<NewResultController>("CreateResult"))
+        {
+    @Html.Label("Insert local team")
+    @Html.DropDownListFor(x => x.LocalTeam, new SelectList(ddl, "Team", "Team"))
+    @Html.Raw("</br>")
+    @Html.Label("Insert local scores")
+    @Html.TextBoxFor(x => x.LocalScore) 
+    @Html.Raw("</br>")
+    @Html.Label("Insert visitor team")
+    @Html.DropDownListFor(x => x.VisitorTeam, new SelectList(ddl, "Team", "Team"))
+    @Html.Raw("</br>")
+    @Html.Label("Insert visitor scores")
+    @Html.TextBoxFor(x => x.VisitorScore)
+    @Html.Raw("</br>")
+    @Html.Label("Final of month?")
+    @Html.CheckBoxFor(x => x.FinalOfMonth)
+            TempData["Nodes"] = Model.PlayerNodes;
+            TempData["Player"] = Model.Player;
+            TempData["PorraNode"] = Model.PorraNode;
+            TempData["MatchIdentifier"] = Model.MatchIdentifier;
+    @Html.Raw("</br>")
+    <input type="submit" />
+        }
+    }
+}
+@{
+    if (TempData["ResultSuccess"] != null && Boolean.Parse(TempData["ResultSuccess"].ToString()))
+    {
+        var result = new MatchResultModel
+        {
+            LocalTeam = TempData["LocalTeam"] != null ? TempData["LocalTeam"].ToString() : string.Empty,
+            LocalScore = TempData["LocalScore"] != null ? TempData["LocalScore"].ToString() : string.Empty,
+            VisitorTeam = TempData["VisitorTeam"] != null ? TempData["VisitorTeam"].ToString() : string.Empty,
+            VisitorScore = TempData["VisitorScore"] != null ? TempData["VisitorScore"].ToString() : string.Empty,
+            FinalOfMonth = TempData["FinalOfMonth"] != null && bool.Parse(TempData["FinalOfMonth"].ToString()),
+        };
+        
+    <p>@result.LocalTeam</p>
+    <p>@result.LocalScore</p>
+    <p>@result.VisitorTeam</p>
+    <p>@result.VisitorScore</p>
+    
+        //lacks create jugador's node before create a new porra associated to the player.
+        if (TempData["ErrorLog"] != null)
+        {
+    <p>@TempData["ErrorLog"]</p>
+        }
+        else
+        {
+            //User author = new User(0);
+            //Document doc = new Document(Model.PorraNode.Id);
+            //doc.getProperty("localTeam").Value = TempData["LocalTeam"];
+            //doc.getProperty("localScore").Value = TempData["LocalScore"];
+            //doc.getProperty("visitorTeam").Value = TempData["VisitorTeam"];
+            //doc.getProperty("visitorScore").Value = TempData["VisitorScore"];
+            //doc.Publish(author);
+
+            IPorraManager porraManager = new PorraManager();
+            var informationList = porraManager.GetWholePuntuationOfPlayers(Model.PlayerNodes, Model.MatchIdentifier, result);
+            foreach (var playerInformation in informationList)
+            {
+    <p>
+        Global Puntuation of @playerInformation.PlayerName is @playerInformation.Information.OldInformation.GlobalPuntuation
+        @Environment.NewLine and the position is: @playerInformation.Information.NewInformation.HasDRS
+        @Environment.NewLine and the last puntuation is: @playerInformation.Information.NewInformation.LastScore
+    </p>
+            }
+        }
+    }
+}

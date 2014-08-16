@@ -1,0 +1,36 @@
+﻿@using AlbertLlonguerasNew.Models
+@using Library.Businness
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Base.cshtml";
+}
+
+
+@section head
+{
+
+}
+
+
+@section body
+{
+    
+    @{
+        var paco = Umbraco.TypedContent(1151);
+        var paco2 = paco.Descendants("Jugador");
+        TempData["node"] = paco2;
+    }
+    @Html.Partial("CreateResult", new NewResultModel
+                {
+                    Player = "master",
+                    PorraNode = PorraManager.GetMatchNode(Model.Content),
+                    MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
+                    PlayerNodes = paco2
+                })
+}
+
+
+@section footer
+{
+
+}
