@@ -1,5 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using AlbertLlonguerasNew.Models;
+using Library.Models;
+using Lucene.Net.Documents;
+using Umbraco.Core.Models;
+using Umbraco.Web;
+using Document = umbraco.cms.businesslogic.web.Document;
 
 namespace AlbertLlonguerasNew.Controllers
 {
@@ -32,24 +39,11 @@ namespace AlbertLlonguerasNew.Controllers
             TempData["VisitorScore"] = model.VisitorScore;
             TempData["FinalOfMonth"] = model.FinalOfMonth;
             //model.PorraNode=Umbraco.TypedContent(1151);
-            //if (TempData["Player"].ToString() == "master")
-            //{
-            //    TempData["ResultSuccess"] = true;
-            //    return RedirectToCurrentUmbracoPage();
-            //}
-
-            //if (Library.Helpers.Utils.HasPorraAccordingIdentifier((IPublishedContent)TempData["PorraNode"], (string)TempData["MatchIdentifier"]))
-            //{
-            //    TempData["ErrorLog"] = "Porra already done";
-            //    TempData["PorraSuccess"] = true;
-            //    return RedirectToCurrentUmbracoPage();
-            //}
 
             TempData["ResultSuccess"] = true;
 
             //redirect to current page to clear the form
             return RedirectToCurrentUmbracoPage();
         }
-
     }
 }

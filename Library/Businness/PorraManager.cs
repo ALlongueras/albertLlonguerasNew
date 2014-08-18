@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Http.Controllers;
 using System.Web.UI;
 using Library.Helpers;
+using umbraco;
+using umbraco.BusinessLogic;
 using Umbraco.Core;
+using Umbraco.Core.Services;
 using Umbraco.Web;
 using Umbraco.Core.Models;
 using Library.Models;
+using umbraco.cms.businesslogic.web;
+using umbraco.businesslogic;
 using Umbraco.Web.UI.Umbraco.Dialogs;
 
 namespace Library.Businness
@@ -36,6 +42,9 @@ namespace Library.Businness
             var porras = this.GetNewResult(nodes, identifier);
             informationList = this.UpdateResults(porras, informationList, matchResult);
             this.ApplyDRSToPlayers(informationList);
+            this.FinalOfMonth(informationList, matchResult);
+            this.UpdateNewScore(informationList);
+            this.AssignPuntuation(informationList);
             return informationList;
         }
 
@@ -46,16 +55,16 @@ namespace Library.Businness
             nodes.ForEach(x =>
                 informationList.Add(new PlayersInformation
                 {
-                    PlayerName = x.Name,
+                    PlayerName = x.GetPropertyValue("name").ToString(),
                     Information = new GlobalPlayerInformation
                     {
                         OldInformation = new PlayerInformation
                         {
-                            Position = Int32.Parse(x.GetPropertyValue("position").ToString()),
-                            GlobalPuntuation = Int32.Parse(x.GetPropertyValue("globalPuntuation").ToString()),
-                            MonthPuntuation = Int32.Parse(x.GetPropertyValue(string.Format("month{0}", currentMonth)).ToString()),
-                            LastScore = Int32.Parse(x.GetPropertyValue("lastScore").ToString()),
-                            PorreroPuntuation = Int32.Parse(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString()),
+                            Position = Convert.ToInt32(x.GetPropertyValue("position")),
+                            GlobalPuntuation = Convert.ToDecimal(x.GetPropertyValue("globalPuntuation").ToString()),
+                            MonthPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("month{0}", currentMonth)).ToString()),
+                            LastScore = Convert.ToDecimal(x.GetPropertyValue("lastScore").ToString()),
+                            PorreroPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString()),
                         },
                         NewInformation = new PlayerInformation()
                     }
@@ -91,7 +100,7 @@ namespace Library.Businness
                     var porraNode =
                         playerNode.Descendants()
                             .FirstOrDefault(x => x.GetPropertyValue("porraIdentifier").ToString() == identifier);
-                    porraList.Add(playerNode.Name, new BasePorraModel
+                    porraList.Add(playerNode.GetPropertyValue("name").ToString(), new BasePorraModel
                     {
                         LocalTeam = porraNode.GetPropertyValue("localTeam").ToString(),
                         LocalScore = porraNode.GetPropertyValue("localScore").ToString(),
@@ -219,6 +228,22 @@ namespace Library.Businness
                 var lastScore = playerInformation.Information.NewInformation.LastScore;
                 playerInformation.Information.NewInformation.MonthPuntuation = playerInformation.Information.OldInformation.MonthPuntuation + lastScore;
                 playerInformation.Information.NewInformation.GlobalPuntuation = playerInformation.Information.OldInformation.GlobalPuntuation + lastScore;
+            }
+        }
+
+        public void AssignPuntuation(IEnumerable<PlayersInformation> informationList)
+        {
+            var informationListSorted = informationList.OrderByDescending(x => x.Information.NewInformation.GlobalPuntuation);
+            for (int i = 0; i < informationListSorted.Count(); i++)
+            {
+                informationListSorted.ElementAt(i).Information.NewInformation.Position = i + 1;
+            }
+            foreach (var players in informationList)
+            {
+                var position =
+                    informationListSorted.FirstOrDefault(name => name.PlayerName == players.PlayerName)
+                        .Information.NewInformation.Position;
+                players.Information.NewInformation.Position = position;
             }
         }
     }

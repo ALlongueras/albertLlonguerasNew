@@ -2,35 +2,32 @@
 @using Library.Businness
 @inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
-    Layout = "Base.cshtml";
+    Layout = "BasePage.cshtml";
 }
 
 
-@section head
+@section bodyContent
 {
-
-}
-
-
-@section body
-{
-    
+    <div class="columnsContainer">
+ 
+      <div class="leftColumn">
+          <h2>Nou partit</h2>
     @{
         var paco = Umbraco.TypedContent(1151);
         var paco2 = paco.Descendants("Jugador");
         TempData["node"] = paco2;
     }
     @Html.Partial("CreateResult", new NewResultModel
-                {
-                    Player = "master",
-                    PorraNode = PorraManager.GetMatchNode(Model.Content),
-                    MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
-                    PlayerNodes = paco2
-                })
-}
-
-
-@section footer
 {
-
+    Player = "master",
+    PorraNode = PorraManager.GetMatchNode(Model.Content),
+    MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
+    PlayerNodes = paco2
+})
+      </div>
+ 
+      <div class="rightColumn">
+      </div>
+ 
+    </div>
 }

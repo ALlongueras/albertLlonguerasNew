@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Library.Businness;
 using Library.Models;
 using NUnit.Framework;
-using Moq;
 
 namespace Library.Test.Businness
 {
@@ -24,82 +18,12 @@ namespace Library.Test.Businness
         public void Initialiaze()
         {
             informationList = new List<PlayersInformation>();
-            informationList = this.InitialiazePlayersInformation(this.informationList);
+            informationList = PorraManagerInitializers.InitialiazePlayersInformation(this.informationList);
             matchResult = new MatchResultModel();
-            matchResult = this.InitializeMatchResult(matchResult);
-            porras=new Dictionary<string, BasePorraModel>();
-            porras = this.InitializePorras(porras);
+            matchResult = PorraManagerInitializers.InitializeMatchResult(matchResult);
+            porras = new Dictionary<string, BasePorraModel>();
+            porras = PorraManagerInitializers.InitializePorras(porras);
             porraManager = new PorraManager();
-        }
-
-        public MatchResultModel InitializeMatchResult(MatchResultModel matchResult)
-        {
-            matchResult.FinalOfMonth = true;
-            //matchResult.LocalScore = "5,3";
-            //matchResult.VisitorScore = "12";
-            return matchResult;
-        }
-
-        public Dictionary<string, BasePorraModel> InitializePorras(Dictionary<string, BasePorraModel> porras)
-        {
-            porras.Add("Alex", new BasePorraModel
-            {
-                LocalScore = "5,3",
-                VisitorScore = "12"
-            });
-            porras.Add("Albert", new BasePorraModel
-            {
-                LocalScore = "20,5,4",
-                VisitorScore = "12"
-            });
-            return porras;
-        }
-
-        public List<PlayersInformation> InitialiazePlayersInformation(List<PlayersInformation> information)
-        {
-            information.Add(new PlayersInformation
-            {
-                PlayerName = "Alex",
-                Information = new GlobalPlayerInformation
-                {
-                    OldInformation = new PlayerInformation
-                    {
-                        GlobalPuntuation = 10,
-                        MonthPuntuation = (decimal)6.5,
-                        PorreroPuntuation = 1
-                    },
-                    NewInformation = new PlayerInformation()
-                }
-            });
-            information.Add(new PlayersInformation
-            {
-                PlayerName = "Albert",
-                Information = new GlobalPlayerInformation
-                {
-                    OldInformation = new PlayerInformation
-                    {
-                        GlobalPuntuation = 8,
-                        MonthPuntuation = (decimal)6.5,
-                        PorreroPuntuation = 0
-                    },
-                    NewInformation = new PlayerInformation()
-                }
-            });
-            information.Add(new PlayersInformation
-            {
-                PlayerName = "Xevi",
-                Information = new GlobalPlayerInformation
-                {
-                    OldInformation = new PlayerInformation
-                    {
-                        GlobalPuntuation = 7,
-                        MonthPuntuation = (decimal)6.3,
-                        PorreroPuntuation = 4
-                    },
-                    NewInformation = new PlayerInformation()
-                }
-            });
-            return information;
         }
 
         [Test]
@@ -178,6 +102,16 @@ namespace Library.Test.Businness
             Assert.AreEqual(result1, this.informationList[0].Information.NewInformation.LastScore);
             Assert.AreEqual(result2, this.informationList[1].Information.NewInformation.LastScore);
             Assert.AreEqual(result3, this.informationList[2].Information.NewInformation.LastScore);
+        }
+
+        [Test]
+        public void SortPlayers()
+        {
+            this.informationList[2].Information.NewInformation.GlobalPuntuation = 12;
+            this.porraManager.AssignPuntuation(this.informationList);
+            Assert.AreEqual(2, this.informationList[0].Information.NewInformation.Position);
+            Assert.AreEqual(3, this.informationList[1].Information.NewInformation.Position);
+            Assert.AreEqual(1, this.informationList[2].Information.NewInformation.Position);
         }
     }
 }

@@ -6,20 +6,24 @@
 @using Member = umbraco.cms.businesslogic.member.Member
 @inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @{
-    Layout = "Base.cshtml";
+    Layout = "BasePage.cshtml";
 }
 
-@section head
-{
 
-}
-
-@section body {
+@section bodyContent {
+    
+    <div class="columnsContainer">
+ 
+        <div class="leftColumn">
     @Html.Partial("SignInForm", new SignInModel())
     @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
+        </div>
+ 
+        <div class="rightColumn">
     @{
         if (Members.IsLoggedIn())
         {
+            <h2>Nova porra</h2>
             var name = Membership.GetUserNameByEmail(Member.GetCurrentMember().Email);
             <p>@name</p>
             if (Membership.GetUser(name) != null)
@@ -31,22 +35,11 @@
                     MatchIdentifier = Library.Businness.PorraManager.GetMatchIdentifier(Model.Content)
                 })
             }
-            @*if (name == "albert@albertllongueras.cat")
-            {
-  @Html.Partial("CreatePorra", new NewPorraModel
-                {
-                    Player = "master",
-                    PorraNode = PorraManager.GetMatchNode(Model.Content),
-                    MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content)
-                })
-            }*@
-        }
-        
+        } 
     }
+        </div>
+    </div>
 
-}
 
-@section footer
-{
 
 }

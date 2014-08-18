@@ -3,10 +3,6 @@
     Layout = "Base.cshtml";
 }
 <!-- I get rendered where the RenderBody tag is on the master template -->
-@section head {
-    <!-- Here I could either remove the head section, as it is not required -->
-    <!-- Or I can put in specific CSS & JS files into the head tag that are needed for the homepage only -->
-}
 @section body {
     <div id="top" class="header">
         <div class="vert-text">
@@ -91,6 +87,4 @@
     </script>
     <!-- Here I could either remove the head section, as it is not required -->
     <!-- Or I can put in specific CSS & JS files into the head tag that are needed for the homepage only -->
-}
-@section footer {
 }

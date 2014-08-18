@@ -26,5 +26,7 @@ namespace Library.Businness
         void FinalOfMonth(IEnumerable<PlayersInformation> informationList, MatchResultModel matchResult);
 
         void UpdateNewScore(IEnumerable<PlayersInformation> informationList);
+
+        void AssignPuntuation(IEnumerable<PlayersInformation> informationList);
     }
 }

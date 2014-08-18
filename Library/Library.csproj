@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="businesslogic, Version=1.0.5261.28129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library.Test\bin\Debug\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="cms, Version=1.0.5261.28129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AlbertLlonguerasNew\bin\cms.dll</HintPath>
+    </Reference>
     <Reference Include="interfaces, Version=1.0.5261.28126, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AlbertLlonguerasNew\bin\interfaces.dll</HintPath>
@@ -57,14 +65,26 @@
     <Reference Include="Umbraco.Core">
       <HintPath>..\AlbertLlonguerasNew\bin\Umbraco.Core.dll</HintPath>
     </Reference>
+    <Reference Include="umbraco.DataLayer, Version=1.0.5261.28129, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AlbertLlonguerasNew\bin\umbraco.DataLayer.dll</HintPath>
+    </Reference>
     <Reference Include="umbraco.editorControls">
       <HintPath>..\AlbertLlonguerasNew\bin\umbraco.editorControls.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.MacroEngines">
       <HintPath>..\AlbertLlonguerasNew\bin\umbraco.MacroEngines.dll</HintPath>
     </Reference>
+    <Reference Include="umbraco.providers, Version=1.0.5261.28132, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AlbertLlonguerasNew\bin\umbraco.providers.dll</HintPath>
+    </Reference>
     <Reference Include="Umbraco.Web.UI">
       <HintPath>..\AlbertLlonguerasNew\bin\Umbraco.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.XmlSerializers, Version=1.0.5261.28133, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AlbertLlonguerasNew\bin\umbraco.XmlSerializers.dll</HintPath>
     </Reference>
     <Reference Include="UmbracoExamine, Version=0.6.0.28130, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
