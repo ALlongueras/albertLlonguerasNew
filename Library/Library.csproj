@@ -95,6 +95,7 @@
     <Compile Include="Businness\IPorraManager.cs" />
     <Compile Include="Businness\PorraManager.cs" />
     <Compile Include="Businness\TeamsManager.cs" />
+    <Compile Include="Helpers\PorraManagerUtils.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Members\MembersManager.cs" />
     <Compile Include="Models\BasePorraModel.cs" />

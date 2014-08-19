@@ -13,7 +13,8 @@
     <p>@TempData["Email"]</p>
 }*@
 @*Create member according to the response*@
-    @if (User.Identity.IsAuthenticated)
+@{
+    if (User.Identity.IsAuthenticated)
     {
         <p>Logged in: @User.Identity.Name</p>
         <p>@Html.ActionLink("Log out", "MemberUmbLogout", "SignInForm")</p>
@@ -22,33 +23,30 @@
     {
         using (Html.BeginUmbracoForm("MemberUmbLogin", "SignInForm"))
         {
-        @Html.EditorFor(x => Model)
-        <input type="submit" />
+            @Html.EditorFor(x => Model)
+            <input type="submit" />
         }
         <p>@TempData["Status"]</p>
         if (TempData["SignInSuccess"] != null)
         {
-        var success = Boolean.Parse(TempData["SignInSuccess"].ToString());
-        var email = @TempData["Email"].ToString();
-        var password = @TempData["Password"].ToString();
-        <p>@SignInFormController.CreateNewUser(email, password, success)</p>
-  
-       }
-        @*if (TempData["SignInSuccess"] != null && !(Boolean.Parse(TempData["SignInSuccess"].ToString())))
+            var success = Boolean.Parse(TempData["SignInSuccess"].ToString());
+            var email = @TempData["Email"].ToString();
+            var password = @TempData["Password"].ToString();
+            <p>@SignInFormController.CreateNewUser(email, password, success)</p>
+
+        }
+if (TempData["SignInSuccess"] != null && !(Boolean.Parse(TempData["SignInSuccess"].ToString())))
         {
             var email = @TempData["Email"].ToString();
             var currentUser = Membership.GetUser(email);
-            if (currentUser!=null)
-            {
-  
-            }
             var memberType = MemberType.GetByAlias("FrontEndUser");
             var user = new User(0);
             var member = Member.MakeNew(email, memberType, user);
             member.LoginName = email;
             member.ChangePassword(@TempData["Password"].ToString());
-        }*@
+        }
     }
+}
 
 
 

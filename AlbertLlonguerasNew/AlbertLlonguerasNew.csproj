@@ -241,6 +241,10 @@
     <Content Include="masterpages\dummy.txt" />
     <Content Include="media\dummy.txt" />
     <Content Include="scripts\dummy.txt" />
+    <Content Include="scripts\libs\bootstrap.js" />
+    <Content Include="scripts\libs\bootstrap.min.js" />
+    <Content Include="scripts\libs\jqBarGraph.1.1.js" />
+    <Content Include="scripts\libs\jquery-1.10.2.js" />
     <Content Include="usercontrols\dummy.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -356,6 +360,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\BasePage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MacroPartials\Puntuation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MacroPartials\Porra.cshtml" />
+    <Content Include="Views\MacroPartials\Result.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

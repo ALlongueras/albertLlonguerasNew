@@ -1,0 +1,27 @@
+@using Library.Businness
+@using Library.Helpers
+@using Umbraco.Web
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    var porraManager = new PorraManager();
+    var paco = Umbraco.TypedContent(1151);
+    var players = paco.Descendants("Jugador");
+
+    var informationList = porraManager.GetInformationOfPlayers(players);
+    var jsonResult = PorraManagerUtils.ConvertObjectToJson(informationList);
+    if (!string.IsNullOrEmpty(jsonResult))
+    {
+    <h2>This is the puntuation</h2>
+    <div id="puntuationGraph"></div>
+    <script type="text/javascript">
+        var json = '@Html.Raw(jsonResult)';
+        var jsonResult = JSON.parse(json);
+        var puntuations = new Array();
+        for (var i = 0; i < jsonResult.length; i++) {
+            puntuations.push([jsonResult[i].Information.OldInformation.GlobalPuntuation, jsonResult[i].PlayerName, '#7D252B']);
+        }
+        $('#puntuationGraph').jqBarGraph({ data: puntuations });
+    </script>  
+    }
+}
