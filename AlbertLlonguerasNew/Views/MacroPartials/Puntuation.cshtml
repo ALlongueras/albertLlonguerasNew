@@ -5,8 +5,8 @@
 
 @{
     var porraManager = new PorraManager();
-    var paco = Umbraco.TypedContent(1151);
-    var players = paco.Descendants("Jugador");
+    var rootNode = Model.Content.Parent;
+    var players = rootNode.Descendants("Jugador");
 
     var informationList = porraManager.GetInformationOfPlayers(players);
     var jsonResult = PorraManagerUtils.ConvertObjectToJson(informationList);

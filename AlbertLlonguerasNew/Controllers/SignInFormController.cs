@@ -45,7 +45,7 @@ namespace AlbertLlonguerasNew.Controllers
             }
             TempData["Email"] = signInModel.Email;
             TempData["Password"] = signInModel.Password;
-            if (Membership.GetUser(signInModel.Email) !=null)
+            if (Membership.ValidateUser(signInModel.Email, signInModel.Password))
             {
                 TempData["SignInSuccess"] = true;
                 FormsAuthentication.SetAuthCookie(signInModel.Email, signInModel.RememberMe);

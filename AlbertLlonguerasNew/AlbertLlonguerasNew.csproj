@@ -234,6 +234,7 @@
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\dummy.txt" />
+    <Content Include="css\header.css" />
     <Content Include="css\home.css" />
     <Content Include="css\stylish-portfolio.css" />
     <Content Include="default.aspx" />

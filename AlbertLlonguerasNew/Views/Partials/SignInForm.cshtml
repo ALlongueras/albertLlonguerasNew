@@ -32,19 +32,19 @@
             var success = Boolean.Parse(TempData["SignInSuccess"].ToString());
             var email = @TempData["Email"].ToString();
             var password = @TempData["Password"].ToString();
-            <p>@SignInFormController.CreateNewUser(email, password, success)</p>
+            <p>@Membership.GetUser()</p>
 
         }
-if (TempData["SignInSuccess"] != null && !(Boolean.Parse(TempData["SignInSuccess"].ToString())))
-        {
-            var email = @TempData["Email"].ToString();
-            var currentUser = Membership.GetUser(email);
-            var memberType = MemberType.GetByAlias("FrontEndUser");
-            var user = new User(0);
-            var member = Member.MakeNew(email, memberType, user);
-            member.LoginName = email;
-            member.ChangePassword(@TempData["Password"].ToString());
-        }
+//if (TempData["SignInSuccess"] != null && !(Boolean.Parse(TempData["SignInSuccess"].ToString())))
+//        {
+//            var email = @TempData["Email"].ToString();
+//            var currentUser = Membership.GetUser(email);
+//            var memberType = MemberType.GetByAlias("FrontEndUser");
+//            var user = new User(0);
+//            var member = Member.MakeNew(email, memberType, user);
+//            member.LoginName = email;
+//            member.ChangePassword(@TempData["Password"].ToString());
+//        }
     }
 }
 

@@ -5,14 +5,14 @@
 <h2>Nou partit</h2>
 
 @{
-    var paco = Umbraco.TypedContent(1151);
-    var paco2 = paco.Descendants("Jugador");
-    TempData["node"] = paco2;
+    var rootNode = Umbraco.TypedContent(1151);
+    var players = rootNode.Descendants("Jugador");
+    TempData["node"] = players;
  }
 @Html.Partial("CreateResult", new NewResultModel
     {
         Player = "master",
         PorraNode = PorraManager.GetMatchNode(Model.Content),
         MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
-        PlayerNodes = paco2
+        PlayerNodes = players
     })

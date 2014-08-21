@@ -8,12 +8,13 @@ namespace AlbertLlonguerasNew.Models
 {
     public class SignInModel
     {
-        [Required]
+        [Required, Display(Name = "User name")]
         public string Email { get; set; }
 
-        [DataType(DataType.Password)]
+        [Required, Display(Name = "Password"), DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Display(Name = "Remember me")]
         public bool RememberMe { get; set; }
 
     }
