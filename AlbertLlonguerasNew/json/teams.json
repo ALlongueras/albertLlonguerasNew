@@ -1,14 +1,24 @@
 {
     "BBVA": [
+        "Almería",
+        "Athletic Club",
+        "Atlético de Madrid",
         "Barcelona",
-        "Malaga",
-		"Real Madrid"
-    ],
-    "Europa": [
-        "Milan",
-        "Manchester United"
-    ],
-    "Altres": [
-        "Tel Aviv"
+        "Celta de Vigo",
+        "Córdoba",
+        "Deportivo de La Coruña",
+        "Eibar",
+        "Elche",
+        "Espanyol",
+        "Getafe",
+        "Granada CF",
+        "Levante",
+        "Málaga",
+        "Rayo Vallecano",
+        "Real Madrid",
+        "Real Sociedad",
+        "Sevilla",
+        "Valencia CF",
+        "Villarreal"
     ]
 }

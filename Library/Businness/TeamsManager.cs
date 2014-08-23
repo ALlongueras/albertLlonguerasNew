@@ -15,12 +15,16 @@ namespace Library.Businness
         private static Dictionary<string,List<string>> GetTeams()
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "json\\teams.json");
-            using (var reader = new StreamReader(path))
-            {
-                string json = reader.ReadToEnd();
-                var jsonTeams = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string,List<string>>>(json);
-                return jsonTeams;
-            }
+            var file = new FileInfo(path);
+            string json = file.Exists? File.ReadAllText(path, Encoding.Default):string.Empty;
+            var jsonTeams = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+            return jsonTeams;
+            //using (var reader = new StreamReader(path, Encoding.UTF8))
+            //{
+            //    string json = reader.ReadToEnd();
+            //    var jsonTeams = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+            //    return jsonTeams;
+            //}
         }
 
         public static List<TeamModel> LoadTeams()
