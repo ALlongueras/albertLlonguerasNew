@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Http.Controllers;
@@ -24,14 +25,8 @@ namespace Library.Businness
         public static string GetMatchIdentifier(IPublishedContent node)
         {
             node = Utils.GetRootNode(node);
-            var previaNode = GetMatchNode(node);
+            var previaNode = Utils.GetMatchNode(node);
             return previaNode.GetPropertyValue("previaIdentifier").ToString();
-        }
-
-        public static IPublishedContent GetMatchNode(IPublishedContent node)
-        {
-            node = Utils.GetRootNode(node);
-            return node.DescendantsOrSelf("Previa").FirstOrDefault(x => x.GetPropertyValue("isActive").ToString() == "True");
         }
 
         public List<PlayersInformation> GetWholePuntuationOfPlayers(IEnumerable<IPublishedContent> nodes, string identifier, MatchResultModel matchResult)
@@ -51,7 +46,7 @@ namespace Library.Businness
         public List<PlayersInformation> GetInformationOfPlayers(IEnumerable<IPublishedContent> nodes)
         {
             var informationList = new List<PlayersInformation>();
-            var currentMonth = DateTime.Now.Month;
+            var currentMonth = Utils.GetCurrentMonthOfPrevia(nodes.First());
             nodes.ForEach(x =>
                 informationList.Add(new PlayersInformation
                 {
@@ -130,7 +125,7 @@ namespace Library.Businness
                         CheckScorers(informationList, porra.Value.VisitorScore, result.VisitorScore, porra.Key);
                         bonusMatchVisitant = true;
                     }
-                    if (bonusMatchLocal&&bonusMatchVisitant)
+                    if (bonusMatchLocal && bonusMatchVisitant)
                     {
                         this.ApplyMatchBonus(informationList, porra.Key);
                     }
@@ -211,12 +206,11 @@ namespace Library.Businness
                 if (porrerosOfMonth.Contains(playerInformation))
                 {
                     playerInformation.Information.NewInformation.LastScore += valueOfPorrero;
-                    playerInformation.Information.NewInformation.PorreroPuntuation =
-                        playerInformation.Information.OldInformation.PorreroPuntuation + valueOfPorrero;
+                    playerInformation.Information.NewInformation.PorreroPuntuation = playerInformation.Information.OldInformation.PorreroPuntuation + valueOfPorrero;
                 }
                 else
                 {
-                    playerInformation.Information.NewInformation.PorreroPuntuation = playerInformation.Information.OldInformation.PorreroPuntuation;                    
+                    playerInformation.Information.NewInformation.PorreroPuntuation = playerInformation.Information.OldInformation.PorreroPuntuation;
                 }
             }
         }
@@ -245,6 +239,19 @@ namespace Library.Businness
                         .Information.NewInformation.Position;
                 players.Information.NewInformation.Position = position;
             }
+        }
+
+        public bool IsValidPorraAcordingTime(IPublishedContent porraNode, object matchDay = null)
+        {
+            if (porraNode != null)
+            {
+                porraNode = Utils.GetMatchNode(porraNode);
+                matchDay = porraNode.GetPropertyValue("matchDay");
+            }
+            //where 9 is the number of characters " 12:00:00 AM"
+            var arrayMatchDay = matchDay.ToString().Substring(0, matchDay.ToString().Length - 12).Split('/');
+            var porraTime = new DateTime(Int32.Parse(arrayMatchDay[2]), Int32.Parse(arrayMatchDay[0]), Int32.Parse(arrayMatchDay[1]));
+            return porraTime > DateTime.Now;
         }
     }
 }

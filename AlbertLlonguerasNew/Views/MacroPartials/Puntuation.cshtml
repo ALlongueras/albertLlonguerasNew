@@ -2,17 +2,22 @@
 @using Library.Helpers
 @using Umbraco.Web
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
-
+@using Member = umbraco.cms.businesslogic.member.Member
 @{
     var porraManager = new PorraManager();
     var rootNode = Model.Content.Parent;
     var players = rootNode.Descendants("Jugador");
 
     var informationList = porraManager.GetInformationOfPlayers(players);
+    foreach (var player in informationList)
+    {
+        var name = Member.GetAllAsList().FirstOrDefault(x=>x.LoginName==player.PlayerName);
+        player.PlayerName = name.getProperty("nickName").Value.ToString();
+    }
     var jsonResult = PorraManagerUtils.ConvertObjectToJson(informationList);
     if (!string.IsNullOrEmpty(jsonResult))
     {
-    <h2>This is the puntuation</h2>
+    <h2 class="modal-title">Puntuació</h2>
     <div id="puntuationGraph"></div>
     <script type="text/javascript">
         var json = '@Html.Raw(jsonResult)';

@@ -113,5 +113,14 @@ namespace Library.Test.Businness
             Assert.AreEqual(3, this.informationList[1].Information.NewInformation.Position);
             Assert.AreEqual(1, this.informationList[2].Information.NewInformation.Position);
         }
+
+        [TestCase("8/24/2014 12:00:00 AM", true)]
+        [TestCase("8/23/2014 12:00:00 AM", true)]
+        [TestCase("8/22/2014 12:00:00 AM", false)]
+        public void CheckIfPorraIsValidAcordingTime(string timeMock, bool expectedResult)
+        {
+            var result = this.porraManager.IsValidPorraAcordingTime(null, timeMock);
+            Assert.AreEqual(result, expectedResult);
+        }
     }
 }

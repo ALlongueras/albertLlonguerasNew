@@ -236,6 +236,7 @@
     <Content Include="css\dummy.txt" />
     <Content Include="css\header.css" />
     <Content Include="css\home.css" />
+    <Content Include="css\puntuation.css" />
     <Content Include="css\stylish-portfolio.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
@@ -368,6 +369,9 @@
   <ItemGroup>
     <Content Include="Views\MacroPartials\Porra.cshtml" />
     <Content Include="Views\MacroPartials\Result.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MacroPartials\Header.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

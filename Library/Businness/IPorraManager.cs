@@ -28,5 +28,7 @@ namespace Library.Businness
         void UpdateNewScore(IEnumerable<PlayersInformation> informationList);
 
         void AssignPuntuation(IEnumerable<PlayersInformation> informationList);
+
+        bool IsValidPorraAcordingTime(IPublishedContent porraNode, object matchDay);
     }
 }

@@ -35,14 +35,21 @@ namespace Library.Helpers
 
         public static IEnumerable<IPublishedContent> GetPlayersNode(IPublishedContent node)
         {
-            //var rootNode = 
-            //var paco = rootNode.
-            ////var pa = GetRootNode(node);
-            //var paco =
-            //    node.GetAncestorNodes().Where(node1=>node1.NodeTypeAlias=="Page")
-            //        .FirstOrDefault(x => x.GetProperty("identifier").Value.ToString() == "homePorra");
             var paco1 = node.Descendants("Jugador");
             return paco1;
+        }
+
+        public static IPublishedContent GetMatchNode(IPublishedContent node)
+        {
+            node = Utils.GetRootNode(node);
+            return node.DescendantsOrSelf("Previa").FirstOrDefault(x => x.GetPropertyValue("isActive").ToString() == "True");
+        }
+
+        public static string GetCurrentMonthOfPrevia(IPublishedContent node)
+        {
+            node = Utils.GetMatchNode(node);
+            var month = node.GetPropertyValue("matchDay").ToString();
+            return month.Split('/').First();
         }
     }
 }

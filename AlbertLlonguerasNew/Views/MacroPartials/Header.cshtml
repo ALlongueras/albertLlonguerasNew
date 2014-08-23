@@ -1,0 +1,40 @@
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    IPublishedContent nodeRoot = Model.Content.GetPropertyValue("identifier").ToString() != "homePorra" ? Model.Content.Parent : Model.Content;
+    IEnumerable<IPublishedContent> children = nodeRoot != null ? nodeRoot.Children : null;
+ }
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@nodeRoot.Url()">Porra de l'espardenya</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    @{
+                        if (children.Any())
+                        {
+                            foreach (IPublishedContent node in children.Where(node => node.HasProperty("isItemOfMainMenu") && node.GetPropertyValue("isItemOfMainMenu").ToString()=="True"))
+                            { 
+                                <li class="page-scroll">
+                                    <a href="@node.Url()">@node.Name</a>
+                                </li>
+                            }  
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+

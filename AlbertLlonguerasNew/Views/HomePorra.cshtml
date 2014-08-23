@@ -13,33 +13,34 @@
 @section bodyContent {
     
     <div class="columnsContainer">
- 
         <div class="leftColumn">
-    @Html.Partial("SignInForm", new SignInModel())
-    @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
+            @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
         </div>
  
         <div class="rightColumn">
-    @{
-        if (Members.IsLoggedIn())
-        {
             <h2>Nova porra</h2>
-            var name = Membership.GetUserNameByEmail(Member.GetCurrentMember().Email);
-            <p>@name</p>
-            if (Membership.GetUser(name) != null)
-            {
-                @Html.Partial("CreatePorra", new NewPorraModel
+            @{
+                if (!Members.IsLoggedIn())
                 {
-                    Player = name,
-                    PorraNode = Utils.GetPlayerNode(Model, name),
-                    MatchIdentifier = Library.Businness.PorraManager.GetMatchIdentifier(Model.Content)
-                })
+                    <p>Fes login per crear porra</p>
+                }
             }
-        } 
-    }
+            @Html.Partial("SignInForm", new SignInModel())
+            @{
+                if (Members.IsLoggedIn())
+                {
+                    var name = Membership.GetUserNameByEmail(Member.GetCurrentMember().Email);
+                    if (Membership.GetUser(name) != null)
+                    {
+                        @Html.Partial("CreatePorra", new NewPorraModel
+                        {
+                            Player = name,
+                            PorraNode = Utils.GetPlayerNode(Model, name),
+                            MatchIdentifier = Library.Businness.PorraManager.GetMatchIdentifier(Model.Content)
+                        })
+                    }
+                }
+            }
         </div>
     </div>
-
-
-
 }

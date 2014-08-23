@@ -5,18 +5,11 @@
 @using MemberType = umbraco.cms.businesslogic.member.MemberType
 @model AlbertLlonguerasNew.Models.SignInModel
 
-@*@using (Html.BeginUmbracoForm<SignInFormController>("SignIn"))
-{
-    @Html.EditorFor(x => Model)
-    <input type="submit" />
-    
-    <p>@TempData["Email"]</p>
-}*@
 @*Create member according to the response*@
 @{
     if (User.Identity.IsAuthenticated)
     {
-        <p>Logged in: @User.Identity.Name</p>
+        <p>Logged in: @Member.GetCurrentMember().getProperty("nickName").Value</p>
         <p>@Html.ActionLink("Log out", "MemberUmbLogout", "SignInForm")</p>
     }
     else
@@ -35,16 +28,6 @@
             <p>@Membership.GetUser()</p>
 
         }
-//if (TempData["SignInSuccess"] != null && !(Boolean.Parse(TempData["SignInSuccess"].ToString())))
-//        {
-//            var email = @TempData["Email"].ToString();
-//            var currentUser = Membership.GetUser(email);
-//            var memberType = MemberType.GetByAlias("FrontEndUser");
-//            var user = new User(0);
-//            var member = Member.MakeNew(email, memberType, user);
-//            member.LoginName = email;
-//            member.ChangePassword(@TempData["Password"].ToString());
-//        }
     }
 }
 

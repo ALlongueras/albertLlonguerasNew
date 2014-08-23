@@ -1,5 +1,6 @@
 @using AlbertLlonguerasNew.Models
 @using Library.Businness
+@using Library.Helpers
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 <h2>Nou partit</h2>
@@ -12,7 +13,7 @@
 @Html.Partial("CreateResult", new NewResultModel
     {
         Player = "master",
-        PorraNode = PorraManager.GetMatchNode(Model.Content),
+        PorraNode = Utils.GetMatchNode(Model.Content),
         MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
         PlayerNodes = players
     })

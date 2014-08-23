@@ -33,17 +33,16 @@
 @{
     if (TempData["PorraSuccess"] != null && Boolean.Parse(TempData["PorraSuccess"].ToString()))
     {
-    <p>@TempData["LocalTeam"]</p>
-    <p>@TempData["LocalScore"]</p>
-    <p>@TempData["VisitorTeam"]</p>
-    <p>@TempData["VisitorScore"]</p>
-        //lacks create jugador's node before create a new porra associated to the player.
         if (TempData["ErrorLog"] != null)
         {
-    <p>@TempData["ErrorLog"]</p>
+            <p class="text-warning">@TempData["ErrorLog"]</p>
         }
         else
         {
+            <p>@TempData["LocalTeam"]</p>
+            <p>@TempData["LocalScore"]</p>
+            <p>@TempData["VisitorTeam"]</p>
+            <p>@TempData["VisitorScore"]</p>
             DocumentType dt = DocumentType.GetByAlias("Porra");
             var currentUser = Member.GetCurrentMember();
             User author = new User(0);

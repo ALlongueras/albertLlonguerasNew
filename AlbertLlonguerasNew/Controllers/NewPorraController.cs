@@ -37,10 +37,20 @@ namespace AlbertLlonguerasNew.Controllers
                 TempData["MatchSuccess"] = true;
                 return RedirectToCurrentUmbracoPage();
             }
-
-            if (Library.Helpers.Utils.HasPorraAccordingIdentifier((IPublishedContent)TempData["PorraNode"], (string)TempData["MatchIdentifier"]))
+            var porraManager = new Library.Businness.PorraManager();
+            if (Library.Helpers.Utils.HasPorraAccordingIdentifier((IPublishedContent)TempData["PorraNode"], (string)TempData["MatchIdentifier"])
+                && !porraManager.IsValidPorraAcordingTime((IPublishedContent)TempData["PorraNode"]))
             {
-                TempData["ErrorLog"] = "Porra already done";
+                var errorMessage = string.Empty;
+                if (!porraManager.IsValidPorraAcordingTime((IPublishedContent)TempData["PorraNode"]))
+                {
+                    errorMessage = "S'ha excedit el temps per a fer la porra";                    
+                }
+                if (Library.Helpers.Utils.HasPorraAccordingIdentifier((IPublishedContent)TempData["PorraNode"], (string)TempData["MatchIdentifier"]))
+                {
+                    errorMessage = "Porra already done";
+                }
+                TempData["ErrorLog"] = errorMessage;
                 TempData["PorraSuccess"] = true;
                 return RedirectToCurrentUmbracoPage();
             }
