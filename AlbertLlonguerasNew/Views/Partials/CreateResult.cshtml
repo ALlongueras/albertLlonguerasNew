@@ -29,6 +29,8 @@
     @Html.Raw("</br>")
     @Html.Label("Final of month?")
     @Html.CheckBoxFor(x => x.FinalOfMonth)
+    @Html.Label("Not apply DRS?")
+    @Html.CheckBoxFor(x => x.NotDRS)
             TempData["Nodes"] = Model.PlayerNodes;
             TempData["Player"] = Model.Player;
             TempData["PorraNode"] = Model.PorraNode;
@@ -49,7 +51,8 @@
             VisitorTeam = TempData["VisitorTeam"] != null ? TempData["VisitorTeam"].ToString() : string.Empty,
             VisitorScore = TempData["VisitorScore"] != null ? TempData["VisitorScore"].ToString() : string.Empty,
             FinalOfMonth = TempData["FinalOfMonth"] != null && bool.Parse(TempData["FinalOfMonth"].ToString()),
-            CurrentMonth = Utils.GetCurrentMonthOfPrevia(Model.PorraNode)
+            CurrentMonth = Utils.GetCurrentMonthOfPrevia(Model.PorraNode),
+            NotDRS = TempData["NotDRS"] != null && bool.Parse(TempData["NotDRS"].ToString()),
         };
         
     <p>@result.LocalTeam</p>

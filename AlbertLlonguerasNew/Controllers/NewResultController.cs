@@ -38,7 +38,7 @@ namespace AlbertLlonguerasNew.Controllers
             TempData["VisitorTeam"] = model.VisitorTeam;
             TempData["VisitorScore"] = model.VisitorScore;
             TempData["FinalOfMonth"] = model.FinalOfMonth;
-            //model.PorraNode=Umbraco.TypedContent(1151);
+            TempData["NotDRS"] = model.NotDRS;
 
             TempData["ResultSuccess"] = true;
 

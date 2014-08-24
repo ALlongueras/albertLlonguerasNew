@@ -10,6 +10,8 @@ namespace AlbertLlonguerasNew.Models
     {
         public bool FinalOfMonth { get; set; }
 
+        public bool NotDRS { get; set; }
+
         public IEnumerable<IPublishedContent> PlayerNodes { get; set; } 
     }
 }

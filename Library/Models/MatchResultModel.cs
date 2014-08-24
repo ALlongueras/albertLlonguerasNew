@@ -10,6 +10,8 @@ namespace Library.Models
     {
         public bool FinalOfMonth { get; set; }
 
+        public bool NotDRS { get; set; }
+
         public string LocalTeam { get; set; }
 
         public string LocalScore { get; set; }

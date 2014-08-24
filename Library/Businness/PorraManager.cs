@@ -34,7 +34,7 @@ namespace Library.Businness
         {
             var informationList = new List<PlayersInformation>();
             informationList = this.GetInformationOfPlayers(nodes, matchResult.CurrentMonth);
-            informationList = this.AssignDRSToPlayers(informationList);
+            informationList = !matchResult.NotDRS ? this.AssignDRSToPlayers(informationList) : informationList;
             var porras = this.GetNewResult(nodes, identifier);
             informationList = this.UpdateResults(porras, informationList, matchResult);
             this.ApplyDRSToPlayers(informationList);
@@ -47,7 +47,6 @@ namespace Library.Businness
         public List<PlayersInformation> GetInformationOfPlayers(List<IPublishedContent> nodes, string currentMonth)
         {
             var informationList = new List<PlayersInformation>();
-            //var currentMonth = 8;
             if (!nodes.Any()) return informationList;
             //var currentMonth = Utils.GetCurrentMonthOfPrevia(nodes.First());
             nodes.ForEach(x =>
