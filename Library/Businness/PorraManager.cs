@@ -15,6 +15,7 @@ using Umbraco.Core.Models;
 using Library.Models;
 using umbraco.cms.businesslogic.web;
 using umbraco.businesslogic;
+using Umbraco.Web.Models;
 using Umbraco.Web.UI.Umbraco.Dialogs;
 
 namespace Library.Businness
@@ -29,10 +30,10 @@ namespace Library.Businness
             return previaNode.GetPropertyValue("previaIdentifier").ToString();
         }
 
-        public List<PlayersInformation> GetWholePuntuationOfPlayers(IEnumerable<IPublishedContent> nodes, string identifier, MatchResultModel matchResult)
+        public List<PlayersInformation> GetWholePuntuationOfPlayers(List<IPublishedContent> nodes, string identifier, MatchResultModel matchResult)
         {
             var informationList = new List<PlayersInformation>();
-            informationList = this.GetInformationOfPlayers(nodes);
+            informationList = this.GetInformationOfPlayers(nodes, matchResult.CurrentMonth);
             informationList = this.AssignDRSToPlayers(informationList);
             var porras = this.GetNewResult(nodes, identifier);
             informationList = this.UpdateResults(porras, informationList, matchResult);
@@ -43,10 +44,12 @@ namespace Library.Businness
             return informationList;
         }
 
-        public List<PlayersInformation> GetInformationOfPlayers(IEnumerable<IPublishedContent> nodes)
+        public List<PlayersInformation> GetInformationOfPlayers(List<IPublishedContent> nodes, string currentMonth)
         {
             var informationList = new List<PlayersInformation>();
-            var currentMonth = Utils.GetCurrentMonthOfPrevia(nodes.First());
+            //var currentMonth = 8;
+            if (!nodes.Any()) return informationList;
+            //var currentMonth = Utils.GetCurrentMonthOfPrevia(nodes.First());
             nodes.ForEach(x =>
                 informationList.Add(new PlayersInformation
                 {
@@ -59,7 +62,7 @@ namespace Library.Businness
                             GlobalPuntuation = Convert.ToDecimal(x.GetPropertyValue("globalPuntuation").ToString()),
                             MonthPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("month{0}", currentMonth)).ToString()),
                             LastScore = Convert.ToDecimal(x.GetPropertyValue("lastScore").ToString()),
-                            PorreroPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString()),
+                            PorreroPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString())
                         },
                         NewInformation = new PlayerInformation()
                     }
@@ -155,13 +158,13 @@ namespace Library.Businness
         private void CheckScorers(IEnumerable<PlayersInformation> informationList, string porraScores, string matchScores, string player)
         {
             var porraScoresList = new List<string>();
-            var scores = string.IsNullOrEmpty(porraScores) ? null : porraScores.Split(',');
+            var scores = string.IsNullOrEmpty(porraScores) ? null : Regex.Replace(porraScores, @"\s+", "").Split(',');
             if (scores != null && scores.Any())
             {
                 porraScoresList.AddRange(scores);
 
             }
-            scores = string.IsNullOrEmpty(matchScores) ? null : matchScores.Split(',');
+            scores = string.IsNullOrEmpty(matchScores) ? null : Regex.Replace(matchScores, @"\s+", "").Split(',');
             var matchScoresList = new List<string>();
             if (scores != null && scores.Any())
             {
@@ -252,6 +255,24 @@ namespace Library.Businness
             var arrayMatchDay = matchDay.ToString().Substring(0, matchDay.ToString().Length - 12).Split('/');
             var porraTime = new DateTime(Int32.Parse(arrayMatchDay[2]), Int32.Parse(arrayMatchDay[0]), Int32.Parse(arrayMatchDay[1]));
             return porraTime > DateTime.Now;
+        }
+
+        public Dictionary<string, BasePorraModel> GetPorrasFromPlayers(IPublishedContent node)
+        {
+            //node = Utils.GetRootNode(node);
+            var nodePlayers = Utils.GetPorresNode(node);
+            var porras = new Dictionary<string, BasePorraModel>();
+            foreach (var nodePlayer in nodePlayers)
+            {
+                porras.Add(nodePlayer.Parent.Name, new BasePorraModel
+                {
+                    LocalTeam = nodePlayer.GetPropertyValue("localTeam") != null ? nodePlayer.GetPropertyValue("localTeam").ToString() : string.Empty,
+                    LocalScore = nodePlayer.GetPropertyValue("localScore") != null ? nodePlayer.GetPropertyValue("localScore").ToString() : string.Empty,
+                    VisitorTeam = nodePlayer.GetPropertyValue("visitorTeam") != null ? nodePlayer.GetPropertyValue("visitorTeam").ToString() : string.Empty,
+                    VisitorScore = nodePlayer.GetPropertyValue("visitorScore") != null ? nodePlayer.GetPropertyValue("visitorScore").ToString() : string.Empty,
+                });
+            }
+            return porras;
         }
     }
 }

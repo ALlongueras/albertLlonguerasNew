@@ -87,7 +87,7 @@ namespace Library.Test.Businness
 
         [TestCase("5,3", "1", 4.0, 1.5, 0.0)]
         [TestCase("5,3,1", "12", 1.5, 6.0, 0.0)]
-        [TestCase("20,5,4", "12", 1.5, 7.5, 0.0)]
+        [TestCase("20,5, 4", "12", 1.5, 7.5, 0.0)]
         [TestCase("5,3", "", 2.0, 0.0, 0.0)]
         [TestCase("", "2", 1.0, 1.5, 0.0)]
         [TestCase("5,3,4", "3", 1.0, 6.0, 0.0)]
@@ -114,9 +114,9 @@ namespace Library.Test.Businness
             Assert.AreEqual(1, this.informationList[2].Information.NewInformation.Position);
         }
 
-        [TestCase("8/24/2014 12:00:00 AM", true)]
-        [TestCase("8/23/2014 12:00:00 AM", true)]
-        [TestCase("8/22/2014 12:00:00 AM", false)]
+        [TestCase("8/26/2014 12:00:00 AM", true)]
+        [TestCase("8/25/2014 12:00:00 AM", true)]
+        [TestCase("8/24/2014 12:00:00 AM", false)]
         public void CheckIfPorraIsValidAcordingTime(string timeMock, bool expectedResult)
         {
             var result = this.porraManager.IsValidPorraAcordingTime(null, timeMock);

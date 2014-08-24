@@ -33,10 +33,26 @@ namespace Library.Helpers
                     .FirstOrDefault(x => x.GetPropertyValue("identifier").ToString() == "homePorra");
         }
 
-        public static IEnumerable<IPublishedContent> GetPlayersNode(IPublishedContent node)
+        public static List<IPublishedContent> GetPlayersNode(IPublishedContent node)
         {
-            var paco1 = node.Descendants("Jugador");
+            var paco1 = node.Descendants("Jugador").ToList();
             return paco1;
+        }
+
+        public static List<IPublishedContent> GetPorresNode(IPublishedContent node)
+        {
+            var list = new List<IPublishedContent>();
+            var node1 = Utils.GetRootNode(node);
+            var identifier = Utils.GetMatchNode(node).GetPropertyValue("previaIdentifier").ToString();
+            var paco = GetPlayersNode(node1);
+            foreach (var content in paco)
+            {
+                if (content.Descendants().Any(x=>x.GetPropertyValue("porraIdentifier").ToString()==identifier))
+                {
+                    list.Add(content.Descendants().First(x => x.GetPropertyValue("porraIdentifier").ToString() == identifier));
+                }
+            }
+            return list;
         }
 
         public static IPublishedContent GetMatchNode(IPublishedContent node)
@@ -48,8 +64,8 @@ namespace Library.Helpers
         public static string GetCurrentMonthOfPrevia(IPublishedContent node)
         {
             node = Utils.GetMatchNode(node);
-            var month = node.GetPropertyValue("matchDay").ToString();
-            return month.Split('/').First();
+            var month = node.GetPropertyValue("matchDay");
+            return month.ToString().Split('/')[0];
         }
     }
 }

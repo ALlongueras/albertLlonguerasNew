@@ -1,11 +1,13 @@
 ﻿@using AlbertLlonguerasNew.Controllers
 @using AlbertLlonguerasNew.Models
 @using Library.Businness
+@using Library.Helpers
 @using Library.Models
 @using Lucene.Net.Documents
 @using umbraco.BusinessLogic
 @using Document = umbraco.cms.businesslogic.web.Document
 @model NewResultModel
+            <p>Motnh: @Utils.GetCurrentMonthOfPrevia(Model.PorraNode)</p>
 
 @{
     if (TempData["ResultSuccess"] == null || !Boolean.Parse(TempData["ResultSuccess"].ToString()))
@@ -47,6 +49,7 @@
             VisitorTeam = TempData["VisitorTeam"] != null ? TempData["VisitorTeam"].ToString() : string.Empty,
             VisitorScore = TempData["VisitorScore"] != null ? TempData["VisitorScore"].ToString() : string.Empty,
             FinalOfMonth = TempData["FinalOfMonth"] != null && bool.Parse(TempData["FinalOfMonth"].ToString()),
+            CurrentMonth = Utils.GetCurrentMonthOfPrevia(Model.PorraNode)
         };
         
     <p>@result.LocalTeam</p>
@@ -69,8 +72,10 @@
             doc.getProperty("visitorScore").Value = TempData["VisitorScore"];
             doc.Publish(author);
 
+            
             IPorraManager porraManager = new PorraManager();
-            var informationList = porraManager.GetWholePuntuationOfPlayers(Model.PlayerNodes, Model.MatchIdentifier, result);
+            <p>@Model.PlayerNodes and @Model.MatchIdentifier and @result.LocalTeam</p>
+            var informationList = porraManager.GetWholePuntuationOfPlayers(Model.PlayerNodes.ToList(), Model.MatchIdentifier, result);
             foreach (var playerInformation in informationList)
             {
     <p>

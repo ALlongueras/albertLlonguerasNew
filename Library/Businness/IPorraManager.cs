@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Library.Models;
 using Umbraco.Core.Models;
+using Umbraco.Web.Models;
 
 namespace Library.Businness
 {
     public interface IPorraManager
     {
-        List<PlayersInformation> GetWholePuntuationOfPlayers(IEnumerable<IPublishedContent> nodes, string identifier, MatchResultModel result);
+        List<PlayersInformation> GetWholePuntuationOfPlayers(List<IPublishedContent> nodes, string identifier, MatchResultModel result);
 
-        List<PlayersInformation> GetInformationOfPlayers(IEnumerable<IPublishedContent> nodes);
+        List<PlayersInformation> GetInformationOfPlayers(List<IPublishedContent> nodes, string currentMonth);
 
         List<PlayersInformation> AssignDRSToPlayers(List<PlayersInformation> informationList);
 
@@ -30,5 +31,7 @@ namespace Library.Businness
         void AssignPuntuation(IEnumerable<PlayersInformation> informationList);
 
         bool IsValidPorraAcordingTime(IPublishedContent porraNode, object matchDay);
+
+        Dictionary<string, BasePorraModel> GetPorrasFromPlayers(IPublishedContent node);
     }
 }

@@ -234,8 +234,10 @@
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\dummy.txt" />
+    <Content Include="css\freelancer.css" />
     <Content Include="css\header.css" />
     <Content Include="css\home.css" />
+    <Content Include="css\porres.css" />
     <Content Include="css\puntuation.css" />
     <Content Include="css\stylish-portfolio.css" />
     <Content Include="default.aspx" />
@@ -355,12 +357,6 @@
     <Content Include="Views\Partials\CreateResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Library\Library.csproj">
-      <Project>{6f1905d3-97c3-437f-a48e-c614049c714b}</Project>
-      <Name>Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\BasePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +368,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\MacroPartials\Header.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MacroPartials\Porres.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{6f1905d3-97c3-437f-a48e-c614049c714b}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,34 @@
+@using Library.Businness
+@using Umbraco.Web.Models
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+<link href="/css/porres.css" rel="stylesheet" />
+
+@{
+    var porraManager = new PorraManager();
+    var porres = porraManager.GetPorrasFromPlayers(Model.Content);
+}
+<table class="table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Equip local</th>
+            <th>Golejadors equip local</th>
+            <th>Equip visitant</th>
+            <th>Golejadors equip visitant</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var porra in porres)
+        {
+            <tr>
+                <td>@porra.Key</td>
+                <td>@porra.Value.LocalTeam</td>
+                <td>@porra.Value.LocalScore</td>
+                <td>@porra.Value.VisitorTeam</td>
+                <td>@porra.Value.VisitorScore</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

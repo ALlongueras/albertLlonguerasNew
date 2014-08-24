@@ -17,5 +17,7 @@ namespace Library.Models
         public string VisitorTeam { get; set; }
 
         public string VisitorScore { get; set; }
+
+        public string CurrentMonth { get; set; }
     }
 }

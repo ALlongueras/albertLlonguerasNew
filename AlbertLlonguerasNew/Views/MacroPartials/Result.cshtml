@@ -4,11 +4,17 @@
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 <h2>Nou partit</h2>
+<p>@PorraManager.GetMatchIdentifier(Model.Content)</p>
+<p>@Utils.GetMatchNode(Model.Content).Name</p>
 
 @{
-    var rootNode = Umbraco.TypedContent(1151);
+    var rootNode = Utils.GetRootNode(Model.Content);
     var players = rootNode.Descendants("Jugador");
     TempData["node"] = players;
+    foreach (var player in players)
+    {
+  <p>@player.Name</p>
+    }
  }
 @Html.Partial("CreateResult", new NewResultModel
     {
@@ -17,3 +23,4 @@
         MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
         PlayerNodes = players
     })
+

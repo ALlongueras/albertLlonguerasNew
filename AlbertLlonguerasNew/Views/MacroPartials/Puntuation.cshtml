@@ -9,9 +9,9 @@
     {
         var porraManager = new PorraManager();
         var rootNode = Model.Content.Parent;
-        var players = rootNode.Descendants("Jugador");
+        var players = rootNode.Descendants("Jugador").ToList();
 
-        var informationList = porraManager.GetInformationOfPlayers(players);
+        var informationList = porraManager.GetInformationOfPlayers(players, Utils.GetCurrentMonthOfPrevia(Model.Content));
         if (informationList != null && informationList.Any())
         {
             foreach (var player in informationList)
