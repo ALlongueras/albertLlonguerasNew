@@ -11,11 +11,15 @@
 }
 
 /* If in mobile screen with maximum width 479px. The iPhone screen resolution is 320x480 px (except iPhone4, 640x960) */
-@media only screen and (max-width: 479px)
+@media screen and (max-width: 768px)
 {
-    #puntuationGraph
+    #puntuationGraph, .center-block, .centerElement
     {
-        width: 90%;
+        left: 0;
+        text-align: left;
+    }
+    #puntuationGraph {
+        margin-left: 0px!important;
     }
 }
 
