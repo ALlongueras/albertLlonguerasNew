@@ -4,7 +4,8 @@
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @using Member = umbraco.cms.businesslogic.member.Member
 @{
-
+    <script src="/scripts/puntuation.js"></script>
+    <link href="/css/puntuation.css" rel="stylesheet" />
     try
     {
         var porraManager = new PorraManager();
@@ -22,16 +23,20 @@
             var jsonResult = PorraManagerUtils.ConvertObjectToJson(informationList);
             if (!string.IsNullOrEmpty(jsonResult))
             {
-    <h2 class="modal-title">Puntuació</h2>
-    <div id="puntuationGraph"></div>
+                <h2 class="modal-title centerElement">Puntuació</h2>
+                <div class="center-block">
+                    
+    <button class="boto3d sortAsc">Ordenar ascendent</button>
+    <button class="boto3d sortDesc">Ordenar descendent</button>
+    <div id="puntuationGraph">
+    </div>
+                </div>
+    
     <script type="text/javascript">
         var json = '@Html.Raw(jsonResult)';
         var jsonResult = JSON.parse(json);
         var puntuations = new Array();
-        for (var i = 0; i < jsonResult.length; i++) {
-            puntuations.push([jsonResult[i].Information.OldInformation.GlobalPuntuation, jsonResult[i].PlayerName, '#7D252B']);
-        }
-        $('#puntuationGraph').jqBarGraph({ data: puntuations });
+        PrepareObject(jsonResult);
     </script>  
   
             }

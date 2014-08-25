@@ -1,11 +1,41 @@
-﻿#puntuationGraph {
-width: 960px;
-position: relative;
-margin:0 auto;
-line-height: 1.4em;
+﻿#puntuationGraph, .center-block
+{
+    width: 960px;
+    position: relative;
+    margin: 0 auto;
+    line-height: 1.4em;
 }
 
-/* If in mobile screen with maximum width 479px. The iPhone screen resolution is 320x480 px (except iPhone4, 640x960) */    
-@media only screen and (max-width: 479px){
-    #puntuationGraph { width: 90%; }
+.center-block {
+    text-align: center;
+}
+
+/* If in mobile screen with maximum width 479px. The iPhone screen resolution is 320x480 px (except iPhone4, 640x960) */
+@media only screen and (max-width: 479px)
+{
+    #puntuationGraph
+    {
+        width: 90%;
+    }
+}
+
+button::-moz-focus-inner
+{
+    border: 0;
+}
+/* Elimina las interpretaciones de Firefox */
+
+.boto3d
+{
+    border: 0;
+    color: #668428;
+    font-size: 18px;
+    font-family: sans-serif;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+}
+
+.graphLabelpuntuationGraph {
+	transform: rotate(90deg);
+	transform-origin: center bottom 0;
 }

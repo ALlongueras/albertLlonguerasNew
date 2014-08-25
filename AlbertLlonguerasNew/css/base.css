@@ -19,3 +19,15 @@ body { margin: 0; }
 #content {
     padding: 2em;
 }
+
+.centerElement {
+    width: 960px;
+    position: relative;
+    margin: 0 auto;
+    line-height: 1.4em;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 30px !important;
+}
