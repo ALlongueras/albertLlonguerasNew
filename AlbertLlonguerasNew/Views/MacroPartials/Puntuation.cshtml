@@ -9,10 +9,12 @@
     try
     {
         var porraManager = new PorraManager();
+        var puntuationManager = new PuntuationManager();
         var rootNode = Model.Content.Parent;
         var players = rootNode.Descendants("Jugador").ToList();
 
         var informationList = porraManager.GetInformationOfPlayers(players, Utils.GetCurrentMonthOfPrevia(Model.Content));
+        //var puntuationOfMonth = puntuationManager.GetPuntuationOfCurrentMonth(players);
         if (informationList != null && informationList.Any())
         {
             foreach (var player in informationList)
@@ -20,23 +22,35 @@
                 var name = Member.GetAllAsList().FirstOrDefault(x => x.LoginName == player.PlayerName);
                 player.PlayerName = name.getProperty("nickName").Value.ToString();
             }
-            var jsonResult = PorraManagerUtils.ConvertObjectToJson(informationList);
-            if (!string.IsNullOrEmpty(jsonResult))
+            //var puntuationOfMonthFixed = new Dictionary<string, string>();
+            //foreach (var player in puntuationOfMonth)
+            //{
+            //    var name = Member.GetAllAsList().FirstOrDefault(x => x.LoginName == player.Key);
+            //    puntuationOfMonthFixed.Add(name.getProperty("nickName").Value.ToString(), player.Value);
+            //}
+            var globalPuntuationJson = PorraManagerUtils.ConvertObjectToJson(informationList);
+            //var puntuationOfMonthJson = PorraManagerUtils.ConvertObjectToJson(puntuationOfMonthFixed);
+            if (!string.IsNullOrEmpty(globalPuntuationJson))
             {
                 <h2 class="modal-title centerElement">Puntuació</h2>
                 <div class="center-block">
                     
-    <button class="boto3d sortAsc">Ordenar ascendent</button>
-    <button class="boto3d sortDesc">Ordenar descendent</button>
+    <button class="boto3d sortAsc">Ascendent</button>
+    <button class="boto3d sortDesc">Descendent</button>
+    <button class="boto3d porrero">Porrero mes</button>
     <div id="puntuationGraph">
     </div>
                 </div>
     
     <script type="text/javascript">
-        var json = '@Html.Raw(jsonResult)';
-        var jsonResult = JSON.parse(json);
+        var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
+        var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
+
+        @*var PuntuationOfMonthJson = '@Html.Raw(puntuationOfMonthJson)';
+        var PuntuationOfMonth = JSON.parse(PuntuationOfMonthJson);*@
+
         var puntuations = new Array();
-        PrepareObject(jsonResult);
+        PrepareObject(GlobalPuntuation);
     </script>  
   
             }

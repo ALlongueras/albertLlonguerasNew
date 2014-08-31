@@ -6,6 +6,12 @@ function PrepareObject(json) {
     $('#puntuationGraph').jqBarGraph({ data: puntuations });
 }
 
+function PreparePuntuationOfMonth(json) {
+    for (var i = 0; i < json.length; i++) {
+        puntuations.push([json[i].Information.OldInformation.MonthPuntuation, json[i].PlayerName, '#7D252B']);
+    }
+}
+
 function InitializeHtml() {
     $('#puntuationGraph').html('');
 }
@@ -20,7 +26,7 @@ function LoadInitialGraph(json) {
     InitializeGraph();
 }
 
-function SortByPuntuationAsc() {
+function SortByPuntuationAsc(puntuations) {
     return puntuations.sort(function (a, b) {
         if (a[0] < b[0])
             return -1;
@@ -30,7 +36,7 @@ function SortByPuntuationAsc() {
     });
 }
 
-function SortByPuntuationDesc() {
+function SortByPuntuationDesc(puntuations) {
     return puntuations.sort(function (a, b) {
         if (a[0] > b[0])
             return -1;
@@ -38,17 +44,32 @@ function SortByPuntuationDesc() {
             return 1;
         return 0;
     });
+}
+
+function InitializeArray() {
+    puntuations = new Array();
 }
 
 $(document).ready(function () {
     $('.boto3d.sortAsc').click(function () {
-        var jsonOrdered = SortByPuntuationAsc();
+        InitializeArray();
+        PrepareObject(GlobalPuntuation);
+        var jsonOrdered = SortByPuntuationAsc(puntuations);
         InitializeHtml();
         InitializeGraph(jsonOrdered);
     });
     $('.boto3d.sortDesc').click(function () {
-        var jsonOrdered = SortByPuntuationDesc();
+        InitializeArray();
+        PrepareObject(GlobalPuntuation);
+        var jsonOrdered = SortByPuntuationDesc(puntuations);
         InitializeHtml();
+        InitializeGraph(jsonOrdered);
+    });
+    $('.boto3d.porrero').click(function () {
+        InitializeHtml();
+        InitializeArray();
+        PreparePuntuationOfMonth(GlobalPuntuation);
+        var jsonOrdered = SortByPuntuationDesc(puntuations);
         InitializeGraph(jsonOrdered);
     });
 });

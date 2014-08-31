@@ -93,7 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Businness\IPorraManager.cs" />
+    <Compile Include="Businness\IPuntuationManager.cs" />
     <Compile Include="Businness\PorraManager.cs" />
+    <Compile Include="Businness\PuntuationManager.cs" />
     <Compile Include="Businness\TeamsManager.cs" />
     <Compile Include="Helpers\PorraManagerUtils.cs" />
     <Compile Include="Helpers\Utils.cs" />

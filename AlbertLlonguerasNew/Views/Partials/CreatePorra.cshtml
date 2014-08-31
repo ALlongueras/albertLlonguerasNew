@@ -10,17 +10,19 @@
         var ddl = Library.Businness.TeamsManager.LoadTeams();
         using (Html.BeginUmbracoForm<NewPorraController>("CreatePorra"))
         {
-    @Html.Label("Insert local team")
+    @Html.Label("Equip local")
     @Html.DropDownListFor(x => x.LocalTeam, new SelectList(ddl, "Team", "Team"))
     @Html.Raw("</br>")
-    @Html.Label("Insert local scores")
-    @Html.TextBoxFor(x => x.LocalScore) 
+    @Html.Label("Golejadors equip local")
+    @Html.TextBoxFor(x => x.LocalScore)
+    <p class="helpMessage">Els golejadors han d'estar separats per comes. Es deixa en blanc quan l'equip no marca gols</p>
     @Html.Raw("</br>")
-    @Html.Label("Insert visitor team")
+    @Html.Label("Equip visitant")
     @Html.DropDownListFor(x => x.VisitorTeam, new SelectList(ddl, "Team", "Team"))
     @Html.Raw("</br>")
-    @Html.Label("Insert visitor scores")
+    @Html.Label("Golejadors equip visitant")
     @Html.TextBoxFor(x => x.VisitorScore)
+    <p class="helpMessage">Els golejadors han d'estar separats per comes. Es deixa en blanc quan l'equip no marca gols</p>
             TempData["Player"] = Model.Player;
             TempData["PorraNode"] = Model.PorraNode;
             TempData["MatchIdentifier"] = Model.MatchIdentifier;

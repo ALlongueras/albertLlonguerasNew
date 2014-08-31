@@ -10,7 +10,7 @@
     if (User.Identity.IsAuthenticated)
     {
         <p>Logged in: @Member.GetCurrentMember().getProperty("nickName").Value</p>
-        <p>@Html.ActionLink("Log out", "MemberUmbLogout", "SignInForm")</p>
+        <p class="logout">@Html.ActionLink("Log out", "MemberUmbLogout", "SignInForm")</p>
     }
     else
     {

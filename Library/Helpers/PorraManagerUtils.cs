@@ -9,7 +9,7 @@ namespace Library.Helpers
 {
     public class PorraManagerUtils
     {
-        public static string ConvertObjectToJson(IEnumerable<PlayersInformation> informationList)
+        public static string ConvertObjectToJson(object informationList)
         {
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(informationList);
             return json;
