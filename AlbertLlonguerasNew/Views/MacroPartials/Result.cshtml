@@ -11,11 +11,7 @@
     var rootNode = Utils.GetRootNode(Model.Content);
     var players = rootNode.Descendants("Jugador");
     TempData["node"] = players;
-    foreach (var player in players)
-    {
-  <p>@player.Name</p>
-    }
- }
+}
 @Html.Partial("CreateResult", new NewResultModel
     {
         Player = "master",
@@ -23,4 +19,5 @@
         MatchIdentifier = PorraManager.GetMatchIdentifier(Model.Content),
         PlayerNodes = players
     })
+
 

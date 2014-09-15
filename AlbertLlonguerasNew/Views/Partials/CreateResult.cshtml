@@ -7,7 +7,7 @@
 @using umbraco.BusinessLogic
 @using Document = umbraco.cms.businesslogic.web.Document
 @model NewResultModel
-            <p>Motnh: @Utils.GetCurrentMonthOfPrevia(Model.PorraNode)</p>
+<p>Month: @Utils.GetCurrentMonthOfPrevia(Model.PorraNode)</p>
 
 @{
     if (TempData["ResultSuccess"] == null || !Boolean.Parse(TempData["ResultSuccess"].ToString()))
@@ -54,16 +54,16 @@
             CurrentMonth = Utils.GetCurrentMonthOfPrevia(Model.PorraNode),
             NotDRS = TempData["NotDRS"] != null && bool.Parse(TempData["NotDRS"].ToString()),
         };
-        
-    <p>@result.LocalTeam</p>
-    <p>@result.LocalScore</p>
-    <p>@result.VisitorTeam</p>
-    <p>@result.VisitorScore</p>
-    
+
+        <p>@result.LocalTeam</p>
+        <p>@result.LocalScore</p>
+        <p>@result.VisitorTeam</p>
+        <p>@result.VisitorScore</p>
+
         //lacks create jugador's node before create a new porra associated to the player.
         if (TempData["ErrorLog"] != null)
         {
-    <p>@TempData["ErrorLog"]</p>
+            <p>@TempData["ErrorLog"]</p>
         }
         else
         {
@@ -75,17 +75,17 @@
             doc.getProperty("visitorScore").Value = TempData["VisitorScore"];
             doc.Publish(author);
 
-            
+
             IPorraManager porraManager = new PorraManager();
             <p>@Model.PlayerNodes and @Model.MatchIdentifier and @result.LocalTeam</p>
             var informationList = porraManager.GetWholePuntuationOfPlayers(Model.PlayerNodes.ToList(), Model.MatchIdentifier, result);
             foreach (var playerInformation in informationList)
             {
-    <p>
-        Global Puntuation of @playerInformation.PlayerName is @playerInformation.Information.OldInformation.GlobalPuntuation
-        @Environment.NewLine and the position is: @playerInformation.Information.NewInformation.HasDRS
-        @Environment.NewLine and the last puntuation is: @playerInformation.Information.NewInformation.LastScore
-    </p>
+                <p>
+                    Global Puntuation of @playerInformation.PlayerName is @playerInformation.Information.OldInformation.GlobalPuntuation
+                    @Environment.NewLine and the position is: @playerInformation.Information.NewInformation.HasDRS
+                    @Environment.NewLine and the last puntuation is: @playerInformation.Information.NewInformation.LastScore
+                </p>
             }
             foreach (var playerNode in Model.PlayerNodes)
             {
@@ -97,8 +97,8 @@
                 node.getProperty("lastScore").Value = string.Format("{0}", playerInformation.Information.NewInformation.LastScore);
                 node.getProperty("position").Value = string.Format("{0}", playerInformation.Information.NewInformation.Position);
 
-                node.getProperty("month8").Value = string.Format("{0}", playerInformation.Information.NewInformation.MonthPuntuation);
-                node.getProperty("porreroMonth8").Value = string.Format("{0}", playerInformation.Information.NewInformation.PorreroPuntuation);
+                node.getProperty("month" + Utils.GetCurrentMonthOfPrevia(Model.PorraNode)).Value = string.Format("{0}", playerInformation.Information.NewInformation.MonthPuntuation);
+                node.getProperty("porreroMonth" + Utils.GetCurrentMonthOfPrevia(Model.PorraNode)).Value = string.Format("{0}", playerInformation.Information.NewInformation.PorreroPuntuation);
                 node.Publish(user);
             }
         }
