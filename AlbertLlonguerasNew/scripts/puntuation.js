@@ -51,21 +51,21 @@ function InitializeArray() {
 }
 
 $(document).ready(function () {
-    $('.boto3d.sortAsc').click(function () {
+    $('.sortAsc').click(function () {
         InitializeArray();
         PrepareObject(GlobalPuntuation);
         var jsonOrdered = SortByPuntuationAsc(puntuations);
         InitializeHtml();
         InitializeGraph(jsonOrdered);
     });
-    $('.boto3d.sortDesc').click(function () {
+    $('.sortDesc').click(function () {
         InitializeArray();
         PrepareObject(GlobalPuntuation);
         var jsonOrdered = SortByPuntuationDesc(puntuations);
         InitializeHtml();
         InitializeGraph(jsonOrdered);
     });
-    $('.boto3d.porrero').click(function () {
+    $('.porrero').click(function () {
         InitializeHtml();
         InitializeArray();
         PreparePuntuationOfMonth(GlobalPuntuation);

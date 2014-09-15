@@ -1,4 +1,5 @@
 @using Library.Businness
+@using Library.Helpers
 @using Umbraco.Web.Models
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 
@@ -7,25 +8,38 @@
 @{
     var porraManager = new PorraManager();
     var porres = porraManager.GetPorrasFromPlayers(Model.Content);
+    var porraNode = Utils.GetMatchNode(Model.Content);
+        var matchDay = porraNode.GetPropertyValue("matchDay");
+        var time = DateTime.Parse(matchDay.ToString()).AddHours(12);
+        var timeNow = DateTime.Now;
+    var resultTime = time > timeNow ? "still enable" : "closed";
 }
+<p>this is the time: @time</p>
+<p>this is the time of now: @timeNow</p>
+<p>is enable? @resultTime</p>
 <table class="table-bordered table-striped table-condensed">
     <thead>
         <tr>
             <th>Nom</th>
             <th>Equip local</th>
+            <th>Resultat equip local</th>
             <th>Golejadors equip local</th>
             <th>Equip visitant</th>
+            <th>Resultat equip visitant</th>
             <th>Golejadors equip visitant</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var porra in porres)
         {
+            var result = string.IsNullOrEmpty(porra.Value.LocalScore) ? 0 : porra.Value.LocalScore.Split(',').Count();
             <tr>
                 <td>@porra.Key</td>
                 <td>@porra.Value.LocalTeam</td>
+                <td>@(string.IsNullOrEmpty(porra.Value.LocalScore) ? 0 : porra.Value.LocalScore.Split(',').Count())</td>
                 <td>@porra.Value.LocalScore</td>
                 <td>@porra.Value.VisitorTeam</td>
+                <td>@(string.IsNullOrEmpty(porra.Value.VisitorScore) ? 0 : porra.Value.VisitorScore.Split(',').Count())</td>
                 <td>@porra.Value.VisitorScore</td>
             </tr>
         }

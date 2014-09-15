@@ -35,31 +35,31 @@
                 <h2 class="modal-title centerElement">Puntuació</h2>
                 <div class="center-block">
                     
-    <button class="boto3d sortAsc">Ascendent</button>
-    <button class="boto3d sortDesc">Descendent</button>
-    <button class="boto3d porrero">Porrero mes</button>
-    <div id="puntuationGraph">
-    </div>
+                    <button class="sortAsc btn btn-default btn-lg"><span class="glyphicon"></span>Ascendent</button>
+                    <button class="sortDesc btn btn-default btn-lg"><span class="glyphicon"></span>Descendent</button>
+                    <button class="porrero btn btn-default btn-lg"><span class="glyphicon"></span>Porrero mes</button>
+                    <div id="puntuationGraph">
+                    </div>
                 </div>
-    
-    <script type="text/javascript">
-        var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
-        var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
 
-        @*var PuntuationOfMonthJson = '@Html.Raw(puntuationOfMonthJson)';
+                <script type="text/javascript">
+                    var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
+                    var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
+
+                    @*var PuntuationOfMonthJson = '@Html.Raw(puntuationOfMonthJson)';
         var PuntuationOfMonth = JSON.parse(PuntuationOfMonthJson);*@
 
-        var puntuations = new Array();
-        PrepareObject(GlobalPuntuation);
-    </script>  
-  
+                    var puntuations = new Array();
+                    PrepareObject(GlobalPuntuation);
+                </script>
+
             }
         }
     }
     catch (Exception)
     {
-    <p>No hi ha cap resultat.</p>
-  
+        <p>No hi ha cap resultat.</p>
+
         throw;
     }
 }
