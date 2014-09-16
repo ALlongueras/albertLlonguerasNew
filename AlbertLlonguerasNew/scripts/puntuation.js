@@ -12,12 +12,31 @@ function PreparePuntuationOfMonth(json) {
     }
 }
 
+function PreparePuntuationOfGlobalMonth(json) {
+    
+    for (var i = 0; i < json.length; i++) {
+        var values = new Array();
+        for (var j = 0; j < json[i].Puntuation.length; j++) {
+            values.push([json[i].Puntuation[j]]);
+        }
+        puntuations.push([json[i].Puntuation, json[i].Name]);
+    }
+    var puntuations1 = new Array(
+   	[[14, 44, 26], '2007'],
+   	[[18, 38, 38], '2008'],
+   	[[24, 32, 57], '2009']
+);
+}
+
 function InitializeHtml() {
     $('#puntuationGraph').html('');
 }
 
 function InitializeGraph(puntuations) {
-    $('#puntuationGraph').jqBarGraph({ data: puntuations });
+    $('#puntuationGraph').jqBarGraph({
+        data: puntuations,
+        colors: ['#242424', '#437346', '#97D95C']
+    });
 }
 
 function LoadInitialGraph(json) {
@@ -46,30 +65,59 @@ function SortByPuntuationDesc(puntuations) {
     });
 }
 
+function SortByPuntuationMonthDesc(puntuations) {
+    return puntuations.sort(function (a, b) {
+        var sumaA = 0;
+        var sumaB = 0;
+        for (var i = 0; i < a.length; i++) {
+            sumaA = sumaA + a[0][i];
+            sumaB = sumaB + b[0][i];
+        }
+        if (sumaA > sumaB)
+            return -1;
+        if (sumaA < sumaB)
+            return 1;
+        return 0;
+    });
+}
+
 function InitializeArray() {
     puntuations = new Array();
 }
 
-$(document).ready(function () {
-    $('.sortAsc').click(function () {
-        InitializeArray();
-        PrepareObject(GlobalPuntuation);
-        var jsonOrdered = SortByPuntuationAsc(puntuations);
+function GlobalWithPorrero() {
         InitializeHtml();
-        InitializeGraph(jsonOrdered);
-    });
-    $('.sortDesc').click(function () {
         InitializeArray();
-        PrepareObject(GlobalPuntuation);
-        var jsonOrdered = SortByPuntuationDesc(puntuations);
-        InitializeHtml();
+        PreparePuntuationOfGlobalMonth(GlobalMonthPorreroPuntuation);
+        var jsonOrdered = SortByPuntuationMonthDesc(puntuations);
         InitializeGraph(jsonOrdered);
-    });
-    $('.porrero').click(function () {
+    }
+
+    function GlobalWithoutPorrero() {
+        InitializeHtml();
+        InitializeArray();
+        PreparePuntuationOfGlobalMonth(GlobalMonthPuntuation);
+        var jsonOrdered = SortByPuntuationMonthDesc(puntuations);
+        InitializeGraph(jsonOrdered);
+    }
+
+    function CurrentMonth() {
         InitializeHtml();
         InitializeArray();
         PreparePuntuationOfMonth(GlobalPuntuation);
         var jsonOrdered = SortByPuntuationDesc(puntuations);
         InitializeGraph(jsonOrdered);
+    }
+$(document).ready(function () {
+    $('.sortDesc').click(function () {
+        GlobalWithPorrero();
     });
+    $('.globalMonth').click(function () {
+        GlobalWithoutPorrero();
+    });
+    $('.porrero').click(function () {
+        CurrentMonth();
+    });
+
+    
 });

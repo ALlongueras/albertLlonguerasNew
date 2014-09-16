@@ -3,7 +3,7 @@ using Library.Businness;
 using Library.Models;
 using Moq;
 using NUnit.Framework;
-using Umbraco.Core.Models;
+//using Umbraco.Core.Models;
 
 namespace Library.Test.Businness
 {
@@ -31,16 +31,16 @@ namespace Library.Test.Businness
             porraManager = new PorraManager();
         }
 
-        [TestCase("5,3", "1", 19.0, 9.5, 7.0)]
+        //[TestCase("5,3", "1", 19.0, 9.5, 7.0)]
         [TestCase("5,3,1", "12", 16.5, 14.0, 7.0)]
-        [TestCase("20,5,4", "12", 16.5, 15.5, 7.0)]
+        [TestCase("20,5,4", "12", 14.0, 18.0, 7.0)]
         [TestCase("5,3", "", 17.0, 8.0, 7.0)]
         [TestCase("", "2", 16.0, 9.5, 7.0)]
         [TestCase("5,3,4", "3", 16.0, 14.0, 7.0)]
-        [TestCase("", "12", 16.5, 10.25, 7.0)]
+        [TestCase("", "10", 13.5, 11.5, 7.0)]
         public void GetWholePuntuationRegardingGlobalPuntuation(string localMatchResult, string visitoMatchResult, decimal result1, decimal result2, decimal result3)
         {
-            this.informationList[0].Information.OldInformation.MonthPuntuation = 7;
+            this.informationList[1].Information.OldInformation.MonthPuntuation = 3;
             this.matchResult.LocalScore = localMatchResult;
             this.matchResult.VisitorScore = visitoMatchResult;
 
@@ -68,6 +68,7 @@ namespace Library.Test.Businness
             this.matchResult.LocalScore = localMatchResult;
             this.matchResult.VisitorScore = visitoMatchResult;
             this.matchResult.FinalOfMonth = false;
+            this.matchResult.NotDRS = false;
 
             informationList = this.porraManager.AssignDRSToPlayers(informationList);
             informationList = this.porraManager.UpdateResults(porras, informationList, matchResult);
@@ -92,7 +93,7 @@ namespace Library.Test.Businness
         {
             this.matchResult.LocalScore = localMatchResult;
             this.matchResult.VisitorScore = visitoMatchResult;
-            this.matchResult.FinalOfMonth = false;
+            this.matchResult.FinalOfMonth = true;
 
             informationList = this.porraManager.AssignDRSToPlayers(informationList);
             informationList = this.porraManager.UpdateResults(porras, informationList, matchResult);

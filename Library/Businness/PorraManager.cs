@@ -61,7 +61,8 @@ namespace Library.Businness
                             GlobalPuntuation = Convert.ToDecimal(x.GetPropertyValue("globalPuntuation").ToString()),
                             MonthPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("month{0}", currentMonth)).ToString()),
                             LastScore = Convert.ToDecimal(x.GetPropertyValue("lastScore").ToString()),
-                            PorreroPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString())
+                            PorreroPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("porreroMonth{0}", currentMonth)).ToString()),
+                            DRSPuntuation = Convert.ToDecimal(x.GetPropertyValue(string.Format("drsMonth{0}", currentMonth)).ToString())
                         },
                         NewInformation = new PlayerInformation()
                     }
@@ -73,11 +74,13 @@ namespace Library.Businness
         {
             var numberOfplayers = informationList.Count();
             var iterator = 1;
+            informationList =
+                informationList.OrderByDescending(x => x.Information.OldInformation.GlobalPuntuation).ToList();
             while (iterator < numberOfplayers)
             {
                 var currentPlayer = informationList[iterator].Information.OldInformation.GlobalPuntuation;
                 var comparisionPlayer = informationList[iterator - 1].Information.OldInformation.GlobalPuntuation;
-                if (comparisionPlayer - currentPlayer < 5)
+                if (comparisionPlayer - currentPlayer < 5 && comparisionPlayer - currentPlayer > 0)
                 {
                     informationList[iterator].Information.NewInformation.HasDRS = true;
                 }
@@ -133,7 +136,17 @@ namespace Library.Businness
                     }
                 }
             }
+            this.UpdateMonthPuntuation(informationList);
             return informationList;
+        }
+
+        private void UpdateMonthPuntuation(IEnumerable<PlayersInformation> informationList)
+        {
+            foreach (var player in informationList)
+            {
+                player.Information.NewInformation.MonthPuntuation = player.Information.OldInformation.MonthPuntuation +
+                                                                    player.Information.NewInformation.LastScore;
+            }
         }
 
         private bool CheckIfTeamsAreCorrect(BasePorraModel porra, MatchResultModel matchResult)
@@ -184,8 +197,13 @@ namespace Library.Businness
 
         public void ApplyDRSToPlayers(IEnumerable<PlayersInformation> informationList)
         {
+            foreach (var player in informationList)
+            {
+                player.Information.NewInformation.DRSPuntuation = player.Information.OldInformation.DRSPuntuation;
+            }
             foreach (var player in informationList.Where(p => p.Information.NewInformation.HasDRS))
             {
+                player.Information.NewInformation.DRSPuntuation += player.Information.NewInformation.LastScore * (decimal)0.5;
                 player.Information.NewInformation.LastScore = player.Information.NewInformation.LastScore * (decimal)1.5;
             }
         }
@@ -199,9 +217,9 @@ namespace Library.Businness
         {
             if (!matchResult.FinalOfMonth) return;
             var playersInformations = informationList as IList<PlayersInformation> ?? informationList.ToList();
-            var max = playersInformations.OrderByDescending(x => x.Information.OldInformation.MonthPuntuation).FirstOrDefault().Information.OldInformation.MonthPuntuation;
+            var max = playersInformations.OrderByDescending(x => x.Information.NewInformation.MonthPuntuation).FirstOrDefault().Information.NewInformation.MonthPuntuation;
             var porrerosOfMonth = new List<PlayersInformation>();
-            porrerosOfMonth.AddRange(playersInformations.Where(x => (x.Information.OldInformation.MonthPuntuation == max)));
+            porrerosOfMonth.AddRange(playersInformations.Where(x => (x.Information.NewInformation.MonthPuntuation == max)));
             var valueOfPorrero = (decimal)(5.0 / porrerosOfMonth.Count());
             foreach (var playerInformation in informationList)
             {
@@ -222,7 +240,7 @@ namespace Library.Businness
             foreach (var playerInformation in informationList)
             {
                 var lastScore = playerInformation.Information.NewInformation.LastScore;
-                playerInformation.Information.NewInformation.MonthPuntuation = playerInformation.Information.OldInformation.MonthPuntuation + lastScore;
+                //playerInformation.Information.NewInformation.MonthPuntuation = playerInformation.Information.OldInformation.MonthPuntuation + lastScore;
                 playerInformation.Information.NewInformation.GlobalPuntuation = playerInformation.Information.OldInformation.GlobalPuntuation + lastScore;
             }
         }
@@ -251,8 +269,9 @@ namespace Library.Businness
                 matchDay = porraNode.GetPropertyValue("matchDay");
             }
             //where 9 is the number of characters " 12:00:00 AM"
-            var arrayMatchDay = matchDay.ToString().Substring(0, matchDay.ToString().Length - 12).Split('/');
-            var porraTime = new DateTime(Int32.Parse(arrayMatchDay[2]), Int32.Parse(arrayMatchDay[0]), Int32.Parse(arrayMatchDay[1]));
+            //var arrayMatchDay = matchDay.ToString().Substring(0, matchDay.ToString().Length - 12).Split('/');
+            //var porraTime = new DateTime(Int32.Parse(arrayMatchDay[2]), Int32.Parse(arrayMatchDay[0]), Int32.Parse(arrayMatchDay[1]));
+            var porraTime = DateTime.Parse(matchDay.ToString()).AddHours(12);
             return porraTime > DateTime.Now;
         }
 

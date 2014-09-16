@@ -82,7 +82,7 @@
             foreach (var playerInformation in informationList)
             {
                 <p>
-                    Global Puntuation of @playerInformation.PlayerName is @playerInformation.Information.OldInformation.GlobalPuntuation
+                    Global Puntuation of @playerInformation.PlayerName is @playerInformation.Information.NewInformation.GlobalPuntuation
                     @Environment.NewLine and the position is: @playerInformation.Information.NewInformation.HasDRS
                     @Environment.NewLine and the last puntuation is: @playerInformation.Information.NewInformation.LastScore
                 </p>
@@ -99,6 +99,7 @@
 
                 node.getProperty("month" + Utils.GetCurrentMonthOfPrevia(Model.PorraNode)).Value = string.Format("{0}", playerInformation.Information.NewInformation.MonthPuntuation);
                 node.getProperty("porreroMonth" + Utils.GetCurrentMonthOfPrevia(Model.PorraNode)).Value = string.Format("{0}", playerInformation.Information.NewInformation.PorreroPuntuation);
+                node.getProperty("drsMonth" + Utils.GetCurrentMonthOfPrevia(Model.PorraNode)).Value = string.Format("{0}", playerInformation.Information.NewInformation.DRSPuntuation);
                 node.Publish(user);
             }
         }

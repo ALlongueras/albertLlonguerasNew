@@ -14,7 +14,9 @@
         var players = rootNode.Descendants("Jugador").ToList();
 
         var informationList = porraManager.GetInformationOfPlayers(players, Utils.GetCurrentMonthOfPrevia(Model.Content));
-        //var puntuationOfMonth = puntuationManager.GetPuntuationOfCurrentMonth(players);
+        var monthList = puntuationManager.GetPuntuationByMonthNoPorrero(rootNode);
+        var monthPorreroList = puntuationManager.GetPuntuationByMonth(rootNode);
+
         if (informationList != null && informationList.Any())
         {
             foreach (var player in informationList)
@@ -22,22 +24,28 @@
                 var name = Member.GetAllAsList().FirstOrDefault(x => x.LoginName == player.PlayerName);
                 player.PlayerName = name.getProperty("nickName").Value.ToString();
             }
-            //var puntuationOfMonthFixed = new Dictionary<string, string>();
-            //foreach (var player in puntuationOfMonth)
-            //{
-            //    var name = Member.GetAllAsList().FirstOrDefault(x => x.LoginName == player.Key);
-            //    puntuationOfMonthFixed.Add(name.getProperty("nickName").Value.ToString(), player.Value);
-            //}
+            foreach (var player in monthList)
+            {
+                var name = Member.GetAllAsList().FirstOrDefault(x => x.LoginName == player.Name);
+                player.Name = name.getProperty("nickName").Value.ToString();
+            }
+            foreach (var player in monthPorreroList)
+            {
+                var name = Member.GetAllAsList().FirstOrDefault(x => x.LoginName == player.Name);
+                player.Name = name.getProperty("nickName").Value.ToString();
+            }
+
             var globalPuntuationJson = PorraManagerUtils.ConvertObjectToJson(informationList);
-            //var puntuationOfMonthJson = PorraManagerUtils.ConvertObjectToJson(puntuationOfMonthFixed);
+            var globalMonthPorreroPuntuationJson = PorraManagerUtils.ConvertObjectToJson(monthPorreroList);
+            var globalMonthPuntuationJson = PorraManagerUtils.ConvertObjectToJson(monthList);
             if (!string.IsNullOrEmpty(globalPuntuationJson))
             {
                 <h2 class="modal-title centerElement">Puntuació</h2>
                 <div class="center-block">
                     
-                    <button class="sortAsc btn btn-default btn-lg"><span class="glyphicon"></span>Ascendent</button>
-                    <button class="sortDesc btn btn-default btn-lg"><span class="glyphicon"></span>Descendent</button>
-                    <button class="porrero btn btn-default btn-lg"><span class="glyphicon"></span>Porrero mes</button>
+                    <button class="sortDesc btn btn-default btn-lg"><span class="glyphicon"></span>Puntuació amb porrero</button>
+                    <button class="globalMonth btn btn-default btn-lg"><span class="glyphicon"></span>Puntuació sense porrerro</button>
+                    <button class="porrero btn btn-default btn-lg"><span class="glyphicon"></span>Puntuació mes</button>
                     <div id="puntuationGraph">
                     </div>
                 </div>
@@ -45,12 +53,13 @@
                 <script type="text/javascript">
                     var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
                     var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
-
-                    @*var PuntuationOfMonthJson = '@Html.Raw(puntuationOfMonthJson)';
-        var PuntuationOfMonth = JSON.parse(PuntuationOfMonthJson);*@
+                    var GlobalMonthPorreroPuntuationJson = '@Html.Raw(globalMonthPorreroPuntuationJson)';
+                    var GlobalMonthPorreroPuntuation = JSON.parse(GlobalMonthPorreroPuntuationJson);
+                    var GlobalMonthPuntuationJson = '@Html.Raw(globalMonthPuntuationJson)';
+                    var GlobalMonthPuntuation = JSON.parse(GlobalMonthPuntuationJson);
 
                     var puntuations = new Array();
-                    PrepareObject(GlobalPuntuation);
+                    GlobalWithPorrero(GlobalMonthPorreroPuntuation);
                 </script>
 
             }

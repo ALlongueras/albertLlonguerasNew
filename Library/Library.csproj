@@ -99,11 +99,11 @@
     <Compile Include="Businness\TeamsManager.cs" />
     <Compile Include="Helpers\PorraManagerUtils.cs" />
     <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="Members\MembersManager.cs" />
     <Compile Include="Models\BasePorraModel.cs" />
     <Compile Include="Models\GlobalPlayerInformation.cs" />
     <Compile Include="Models\MatchResultModel.cs" />
     <Compile Include="Models\PlayerInformation.cs" />
+    <Compile Include="Models\PlayerPuntuation.cs" />
     <Compile Include="Models\PlayersInformation.cs" />
     <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
