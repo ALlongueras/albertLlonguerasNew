@@ -76,15 +76,15 @@ namespace Library.Businness
             var iterator = 1;
             informationList =
                 informationList.OrderByDescending(x => x.Information.OldInformation.GlobalPuntuation).ToList();
-            while (iterator < numberOfplayers)
+            foreach (var player in informationList)
             {
-                var currentPlayer = informationList[iterator].Information.OldInformation.GlobalPuntuation;
-                var comparisionPlayer = informationList[iterator - 1].Information.OldInformation.GlobalPuntuation;
-                if (comparisionPlayer - currentPlayer < 5 && comparisionPlayer - currentPlayer > 0)
+                if (player == informationList.First()) continue;
+                if (informationList.Any(x =>
+                    x.Information.OldInformation.GlobalPuntuation - player.Information.OldInformation.GlobalPuntuation < 5
+                    && x.Information.OldInformation.GlobalPuntuation - player.Information.OldInformation.GlobalPuntuation > 0))
                 {
-                    informationList[iterator].Information.NewInformation.HasDRS = true;
+                    player.Information.NewInformation.HasDRS = true;
                 }
-                iterator++;
             }
             return informationList;
         }
