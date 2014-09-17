@@ -39,7 +39,7 @@ namespace AlbertLlonguerasNew.Controllers
             }
             var porraManager = new Library.Businness.PorraManager();
             if (Library.Helpers.Utils.HasPorraAccordingIdentifier((IPublishedContent)TempData["PorraNode"], (string)TempData["MatchIdentifier"])
-                && !porraManager.IsValidPorraAcordingTime((IPublishedContent)TempData["PorraNode"]))
+                || !porraManager.IsValidPorraAcordingTime((IPublishedContent)TempData["PorraNode"]))
             {
                 var errorMessage = string.Empty;
                 if (!porraManager.IsValidPorraAcordingTime((IPublishedContent)TempData["PorraNode"]))
