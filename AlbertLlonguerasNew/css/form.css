@@ -1,0 +1,10 @@
+﻿span.inputsWidth {
+    min-width: 110px;
+    text-align: left;
+}
+.input-group {
+    margin-bottom: 15px;
+}
+.navbar-form {
+    padding: 0px;
+}

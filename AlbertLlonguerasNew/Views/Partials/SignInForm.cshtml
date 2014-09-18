@@ -14,10 +14,19 @@
     }
     else
     {
-        using (Html.BeginUmbracoForm("MemberUmbLogin", "SignInForm"))
+        using (Html.BeginUmbracoForm("MemberUmbLogin", "SignInForm", null, new {@class = "navbar-form navbar-left"}))
         {
-            @Html.EditorFor(x => Model)
-            <input type="submit" />
+            <div class="input-group">
+                <span class="input-group-addon inputsWidth">Usuari</span>
+                @Html.TextBox("Email", Model.Email, new {@class = "form-control", @placeholder = "Usuari"})
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon inputsWidth">Contrasenya</span>
+                @Html.TextBox("Password", Model.Password, new {@class = "form-control", @placeholder = "Contrasenya", @type = "password"})
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" />
+            </div>
         }
         <p>@TempData["Status"]</p>
         if (TempData["SignInSuccess"] != null)

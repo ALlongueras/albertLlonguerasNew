@@ -10,12 +10,12 @@
 {
     <div class="columnsContainer">
  
-      <div class="leftColumn">
+      <div class="col-sm-7">
     @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
 
       </div>
  
-      <div class="rightColumn">
+      <div class="col-sm-5">
       </div>
  
     </div>

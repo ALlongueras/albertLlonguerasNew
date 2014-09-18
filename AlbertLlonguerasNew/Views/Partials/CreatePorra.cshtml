@@ -10,25 +10,31 @@
         var ddl = Library.Businness.TeamsManager.LoadTeams();
         using (Html.BeginUmbracoForm<NewPorraController>("CreatePorra"))
         {
-    @Html.Label("Equip local")
-    @Html.DropDownListFor(x => x.LocalTeam, new SelectList(ddl, "Team", "Team"))
-    @Html.Raw("</br>")
-    @Html.Label("Golejadors equip local")
-    @Html.TextBoxFor(x => x.LocalScore)
-    <p class="helpMessage">Els golejadors han d'estar separats per comes. Es deixa en blanc quan l'equip no marca gols</p>
-    @Html.Raw("</br>")
-    @Html.Label("Equip visitant")
-    @Html.DropDownListFor(x => x.VisitorTeam, new SelectList(ddl, "Team", "Team"))
-    @Html.Raw("</br>")
-    @Html.Label("Golejadors equip visitant")
-    @Html.TextBoxFor(x => x.VisitorScore)
-    <p class="helpMessage">Els golejadors han d'estar separats per comes. Es deixa en blanc quan l'equip no marca gols</p>
+            <div class="input-group">
+                <span class="input-group-addon inputsWidth">Equip local</span>
+                @Html.DropDownListFor(x => x.LocalTeam, new SelectList(ddl, "Team", "Team"), new {@class = "form-control"})
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon inputsWidth">Golejadors</span>
+                @Html.TextBox("LocalScore", Model.LocalScore, new {@class = "form-control", @placeholder = "Golejadors equip local"})
+            </div>
+            <p class="helpMessage">Els golejadors han d'estar separats per comes. Es deixa en blanc quan l'equip no marca gols</p>
+            @Html.Raw("</br>")
+            <div class="input-group">
+                <span class="input-group-addon inputsWidth">Equip visitant</span>
+                @Html.DropDownListFor(x => x.VisitorTeam, new SelectList(ddl, "Team", "Team"), new {@class = "form-control"})
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon inputsWidth">Golejadors</span>
+                @Html.TextBox("VisitorScore", Model.VisitorScore, new {@class = "form-control", @placeholder = "Golejadors equip visitant"})
+            </div>
+            <p class="helpMessage">Els golejadors han d'estar separats per comes. Es deixa en blanc quan l'equip no marca gols</p>
             TempData["Player"] = Model.Player;
             TempData["PorraNode"] = Model.PorraNode;
             TempData["MatchIdentifier"] = Model.MatchIdentifier;
-    @Html.Raw("</br>")
-    @Html.Raw("</br>")
-    <input type="submit" />
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Nova porra" />
+            </div>
         }
     }
 }
