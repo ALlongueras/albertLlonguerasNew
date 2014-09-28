@@ -233,6 +233,7 @@
     <Content Include="css\base.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\bootstrapWrapper.css" />
     <Content Include="css\dummy.txt" />
     <Content Include="css\freelancer.css" />
     <Content Include="css\header.css" />

@@ -35,3 +35,6 @@ h2 {
 .logout a {
     color: #428bca;
 }
+li {
+    list-style: none;
+}

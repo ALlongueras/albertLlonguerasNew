@@ -13,7 +13,6 @@ function PreparePuntuationOfMonth(json) {
 }
 
 function PreparePuntuationOfGlobalMonth(json) {
-    
     for (var i = 0; i < json.length; i++) {
         var values = new Array();
         for (var j = 0; j < json[i].Puntuation.length; j++) {
@@ -21,11 +20,12 @@ function PreparePuntuationOfGlobalMonth(json) {
         }
         puntuations.push([json[i].Puntuation, json[i].Name]);
     }
-    var puntuations1 = new Array(
-   	[[14, 44, 26], '2007'],
-   	[[18, 38, 38], '2008'],
-   	[[24, 32, 57], '2009']
-);
+}
+
+function PreparePuntuationOfLastGame(json) {
+    for (var i = 0; i < json.length; i++) {
+        puntuations.push([json[i].Information.OldInformation.LastScore, json[i].PlayerName, '#7D252B']);
+    }
 }
 
 function InitializeHtml() {
@@ -35,7 +35,7 @@ function InitializeHtml() {
 function InitializeGraph(puntuations) {
     $('#puntuationGraph').jqBarGraph({
         data: puntuations,
-        colors: ['#242424', '#437346', '#97D95C']
+        colors: ['#d2b48c', '#cd853f', '#a0522d']
     });
 }
 
@@ -85,39 +85,52 @@ function InitializeArray() {
     puntuations = new Array();
 }
 
+function Initialize() {
+    InitializeHtml();
+    InitializeArray();
+}
+
 function GlobalWithPorrero() {
-        InitializeHtml();
-        InitializeArray();
-        PreparePuntuationOfGlobalMonth(GlobalMonthPorreroPuntuation);
-        var jsonOrdered = SortByPuntuationMonthDesc(puntuations);
-        InitializeGraph(jsonOrdered);
-    }
+    Initialize();
+    PreparePuntuationOfGlobalMonth(GlobalMonthPorreroPuntuation);
+    var jsonOrdered = SortByPuntuationMonthDesc(puntuations);
+    InitializeGraph(jsonOrdered);
+}
 
-    function GlobalWithoutPorrero() {
-        InitializeHtml();
-        InitializeArray();
-        PreparePuntuationOfGlobalMonth(GlobalMonthPuntuation);
-        var jsonOrdered = SortByPuntuationMonthDesc(puntuations);
-        InitializeGraph(jsonOrdered);
-    }
+function GlobalWithoutPorrero() {
+    Initialize();
+    PreparePuntuationOfGlobalMonth(GlobalMonthPuntuation);
+    var jsonOrdered = SortByPuntuationMonthDesc(puntuations);
+    InitializeGraph(jsonOrdered);
+}
 
-    function CurrentMonth() {
-        InitializeHtml();
-        InitializeArray();
-        PreparePuntuationOfMonth(GlobalPuntuation);
-        var jsonOrdered = SortByPuntuationDesc(puntuations);
-        InitializeGraph(jsonOrdered);
-    }
+function CurrentMonth() {
+    Initialize();
+    PreparePuntuationOfMonth(GlobalPuntuation);
+    var jsonOrdered = SortByPuntuationDesc(puntuations);
+    InitializeGraph(jsonOrdered);
+}
+
+function LastPuntuation() {
+    Initialize();
+    PreparePuntuationOfLastGame(GlobalPuntuation);
+    var jsonOrdered = SortByPuntuationDesc(puntuations);
+    InitializeGraph(jsonOrdered);
+}
 $(document).ready(function () {
     $('.sortDesc').click(function () {
         GlobalWithPorrero();
     });
     $('.globalMonth').click(function () {
+        $(".puntuationSelect .active").removeClass("active");
         GlobalWithoutPorrero();
     });
     $('.porrero').click(function () {
+        $(".puntuationSelect .active").removeClass("active");
         CurrentMonth();
     });
-
-    
+    $('.lastPuntuation').click(function () {
+        $(".puntuationSelect .active").removeClass("active");
+        LastPuntuation();
+    });
 });

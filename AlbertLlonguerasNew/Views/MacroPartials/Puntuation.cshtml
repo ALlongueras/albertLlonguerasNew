@@ -40,34 +40,45 @@
             var globalMonthPuntuationJson = PorraManagerUtils.ConvertObjectToJson(monthList);
             if (!string.IsNullOrEmpty(globalPuntuationJson))
             {
-                <h2 class="modal-title centerElement">Puntuació</h2>
-                <div class="center-block">
-                    
-                    <button class="sortDesc btn btn-default btn-lg"><span class="glyphicon"></span>Puntuació amb porrero</button>
-                    <button class="globalMonth btn btn-default btn-lg"><span class="glyphicon"></span>Puntuació sense porrerro</button>
-                    <button class="porrero btn btn-default btn-lg"><span class="glyphicon"></span>Puntuació mes</button>
-                    <div id="puntuationGraph">
-                    </div>
-                </div>
+                <h2 class="modal-title centerElement">Classificació i puntuacions específiques</h2>
+<div id="puntuationGraph" class="margin-bottom30">
+        </div>
+    <div class="center-block puntuationSelector">
+        <ul >
+            <li class="margin-bottom10 puntuationSelect">
+                <button class="sortDesc btn btn-info active btn-sm"><span class="glyphicon"></span>Puntuació amb porrero</button>
+            </li>
+            <li class="margin-bottom10 puntuationSelect">
+                <button class="globalMonth btn btn-info btn-sm"><span class="glyphicon"></span>Puntuació sense porrerro</button>
+            </li>
+            <li class="margin-bottom10 puntuationSelect">
+                <button class="porrero btn btn-info btn-sm"><span class="glyphicon"></span>Puntuació mes</button>
+            </li>
+            <li class="margin-bottom10 puntuationSelect">
+                <button class="lastPuntuation btn btn-info btn-sm"><span class="glyphicon"></span>Última puntuació</button>
+            </li>
+        </ul>
+        
+    </div>
 
-                <script type="text/javascript">
-                    var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
-                    var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
-                    var GlobalMonthPorreroPuntuationJson = '@Html.Raw(globalMonthPorreroPuntuationJson)';
+    <script type="text/javascript">
+        var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
+        var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
+        var GlobalMonthPorreroPuntuationJson = '@Html.Raw(globalMonthPorreroPuntuationJson)';
                     var GlobalMonthPorreroPuntuation = JSON.parse(GlobalMonthPorreroPuntuationJson);
                     var GlobalMonthPuntuationJson = '@Html.Raw(globalMonthPuntuationJson)';
                     var GlobalMonthPuntuation = JSON.parse(GlobalMonthPuntuationJson);
 
                     var puntuations = new Array();
                     GlobalWithPorrero(GlobalMonthPorreroPuntuation);
-                </script>
+    </script>
 
             }
         }
     }
     catch (Exception)
     {
-        <p>No hi ha cap resultat.</p>
+    <p>No hi ha cap resultat.</p>
 
         throw;
     }

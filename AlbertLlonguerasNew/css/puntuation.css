@@ -43,3 +43,28 @@ button::-moz-focus-inner
 	transform: rotate(90deg);
 	transform-origin: center bottom 0;
 }
+
+.puntuationSelector {
+    width: 400px;
+}
+
+.puntuationSelect {
+    float: left;
+    margin-left: 10px;
+}
+
+.btn-info {
+  background-color: #383838;
+  border-color: #383838;
+  color: white
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+  background-color: #737373;
+  border-color: #737373;
+  color: white
+}
