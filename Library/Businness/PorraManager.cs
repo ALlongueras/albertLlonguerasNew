@@ -34,11 +34,15 @@ namespace Library.Businness
         {
             var informationList = new List<PlayersInformation>();
             informationList = this.GetInformationOfPlayers(nodes, matchResult.CurrentMonth);
+            if (matchResult.FinalOfMonth)
+            {
+                this.FinalOfMonth(informationList, matchResult);
+                return informationList;
+            }
             informationList = !matchResult.NotDRS ? this.AssignDRSToPlayers(informationList) : informationList;
             var porras = this.GetNewResult(nodes, identifier);
             informationList = this.UpdateResults(porras, informationList, matchResult);
             this.ApplyDRSToPlayers(informationList);
-            this.FinalOfMonth(informationList, matchResult);
             this.UpdateNewScore(informationList);
             this.AssignPuntuation(informationList);
             return informationList;
@@ -217,20 +221,26 @@ namespace Library.Businness
         {
             if (!matchResult.FinalOfMonth) return;
             var playersInformations = informationList as IList<PlayersInformation> ?? informationList.ToList();
-            var max = playersInformations.OrderByDescending(x => x.Information.NewInformation.MonthPuntuation).FirstOrDefault().Information.NewInformation.MonthPuntuation;
+            var max = playersInformations.OrderByDescending(x => x.Information.OldInformation.MonthPuntuation).FirstOrDefault().Information.OldInformation.MonthPuntuation;
             var porrerosOfMonth = new List<PlayersInformation>();
-            porrerosOfMonth.AddRange(playersInformations.Where(x => (x.Information.NewInformation.MonthPuntuation == max)));
+            porrerosOfMonth.AddRange(playersInformations.Where(x => (x.Information.OldInformation.MonthPuntuation == max)));
             var valueOfPorrero = (decimal)(5.0 / porrerosOfMonth.Count());
             foreach (var playerInformation in informationList)
             {
+                playerInformation.Information.NewInformation.MonthPuntuation = playerInformation.Information.OldInformation.MonthPuntuation;
+                playerInformation.Information.NewInformation.LastScore = playerInformation.Information.OldInformation.LastScore;
                 if (porrerosOfMonth.Contains(playerInformation))
                 {
-                    playerInformation.Information.NewInformation.LastScore += valueOfPorrero;
-                    playerInformation.Information.NewInformation.PorreroPuntuation = playerInformation.Information.OldInformation.PorreroPuntuation + valueOfPorrero;
+                    //playerInformation.Information.NewInformation.LastScore += valueOfPorrero;
+                    playerInformation.Information.NewInformation.PorreroPuntuation =
+                        playerInformation.Information.OldInformation.PorreroPuntuation + valueOfPorrero;
+                    playerInformation.Information.NewInformation.GlobalPuntuation =
+                        playerInformation.Information.OldInformation.GlobalPuntuation + valueOfPorrero;
                 }
                 else
                 {
                     playerInformation.Information.NewInformation.PorreroPuntuation = playerInformation.Information.OldInformation.PorreroPuntuation;
+                    playerInformation.Information.NewInformation.GlobalPuntuation = playerInformation.Information.OldInformation.GlobalPuntuation;
                 }
             }
         }

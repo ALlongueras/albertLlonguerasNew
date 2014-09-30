@@ -1,14 +1,14 @@
 ﻿
 function PrepareObject(json) {
     for (var i = 0; i < json.length; i++) {
-        puntuations.push([json[i].Information.OldInformation.GlobalPuntuation, json[i].PlayerName, '#7D252B']);
+        puntuations.push([json[i].Information.OldInformation.GlobalPuntuation, json[i].PlayerName, '#d2b48c']);
     }
     $('#puntuationGraph').jqBarGraph({ data: puntuations });
 }
 
 function PreparePuntuationOfMonth(json) {
     for (var i = 0; i < json.length; i++) {
-        puntuations.push([json[i].Information.OldInformation.MonthPuntuation, json[i].PlayerName, '#7D252B']);
+        puntuations.push([json[i].Information.OldInformation.MonthPuntuation, json[i].PlayerName, '#d2b48c']);
     }
 }
 
@@ -24,7 +24,7 @@ function PreparePuntuationOfGlobalMonth(json) {
 
 function PreparePuntuationOfLastGame(json) {
     for (var i = 0; i < json.length; i++) {
-        puntuations.push([json[i].Information.OldInformation.LastScore, json[i].PlayerName, '#7D252B']);
+        puntuations.push([json[i].Information.OldInformation.LastScore, json[i].PlayerName, '#d2b48c']);
     }
 }
 
