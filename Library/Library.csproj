@@ -100,6 +100,8 @@
     <Compile Include="Helpers\PorraManagerUtils.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Models\BasePorraModel.cs" />
+    <Compile Include="Models\DataChart.cs" />
+    <Compile Include="Models\DatasetsChart.cs" />
     <Compile Include="Models\GlobalPlayerInformation.cs" />
     <Compile Include="Models\MatchResultModel.cs" />
     <Compile Include="Models\PlayerInformation.cs" />

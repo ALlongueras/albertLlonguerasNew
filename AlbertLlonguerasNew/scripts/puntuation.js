@@ -86,6 +86,8 @@ function InitializeArray() {
 }
 
 function Initialize() {
+    $("#chart_block").addClass("hidden");
+    $("#puntuationGraph").removeClass("hidden");
     InitializeHtml();
     InitializeArray();
 }
@@ -117,8 +119,14 @@ function LastPuntuation() {
     var jsonOrdered = SortByPuntuationDesc(puntuations);
     InitializeGraph(jsonOrdered);
 }
+
 $(document).ready(function () {
+    globalChart();
+    $('.chart').click(function () {
+        globalChart();
+    });
     $('.sortDesc').click(function () {
+        $(".puntuationSelect .active").removeClass("active");
         GlobalWithPorrero();
     });
     $('.globalMonth').click(function () {

@@ -68,3 +68,20 @@ button::-moz-focus-inner
   border-color: #737373;
   color: white
 }
+
+#chart_block {
+    width: 500px;
+}
+
+#myChart {
+    float: left;
+}
+
+.legendChart, .legendChart .title {
+    float: left;
+}
+
+.legendChart .title {
+    margin-bottom: 10px;
+    width: 60px;
+}

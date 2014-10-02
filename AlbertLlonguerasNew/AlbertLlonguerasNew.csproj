@@ -245,12 +245,15 @@
     <Content Include="Global.asax" />
     <Content Include="masterpages\dummy.txt" />
     <Content Include="media\dummy.txt" />
+    <Content Include="scripts\Chart.js" />
+    <Content Include="scripts\Chart.min.js" />
     <Content Include="scripts\dummy.txt" />
     <Content Include="scripts\libs\bootstrap.js" />
     <Content Include="scripts\libs\bootstrap.min.js" />
     <Content Include="scripts\libs\jqBarGraph.1.1.js" />
     <Content Include="scripts\libs\jquery-1.10.2.js" />
     <Content Include="scripts\puntuation.js" />
+    <Content Include="scripts\puntuationChart.js" />
     <Content Include="usercontrols\dummy.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

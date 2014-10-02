@@ -1,11 +1,16 @@
+@using System.Globalization
+@using System.Reflection.Emit
 @using Library.Businness
 @using Library.Helpers
+@using Library.Models
 @using Umbraco.Web
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @using Member = umbraco.cms.businesslogic.member.Member
 @{
+    <script src="/scripts/puntuationChart.js"></script>
     <script src="/scripts/puntuation.js"></script>
     <link href="/css/puntuation.css" rel="stylesheet" />
+    <script src="/scripts/Chart.js"></script>
     try
     {
         var porraManager = new PorraManager();
@@ -35,6 +40,84 @@
                 player.Name = name.getProperty("nickName").Value.ToString();
             }
 
+            //Chart
+            var colors = new List<string>
+            {
+                "rgba(0, 127, 255, 0.3)",
+                "rgba(255, 127, 255, 0.3)",
+                "rgba(0, 127, 0, 0.3)",
+                "rgba(255, 127, 0, 0.3)",
+                "rgba(0, 0, 255, 0.3)",
+                "rgba(255, 255, 0, 0.3)",
+                "rgba(0, 255, 255, 0.3)",
+                "rgba(127, 255, 127, 0.3)",
+                "rgba(0, 0, 255, 0.3)",
+                "rgba(255, 0, 0, 0.3)",
+                "rgba(127, 127, 255, 0.3)",
+                "rgba(255, 33, 178, 0.3)"
+            }; 
+            var colorsHards = new List<string>
+            {
+                "rgba(0, 127, 255, 1)",
+                "rgba(255, 127, 255, 1)",
+                "rgba(0, 127, 0, 1)",
+                "rgba(255, 127, 0, 1)",
+                "rgba(0, 0, 255, 1)",
+                "rgba(255, 255, 0, 1)",
+                "rgba(0, 255, 255, 1)",
+                "rgba(127, 255, 127, 1)",
+                "rgba(0, 0, 255, 1)",
+                "rgba(255, 0, 0, 1)",
+                "rgba(127, 127, 255, 1)",
+                "rgba(255, 33, 178, 1)"
+            };
+            var labels = new List<string>
+            {
+                "Juliol",
+                "Agost",
+                "Setembre",
+                "Octubre"
+            };
+            var dataChart = new DataChart
+            {
+                Labels = string.Join(",", labels),
+                Datasets = new List<DatasetsChart>()
+            };
+            var color = 0;
+            foreach (var player in players)
+            {
+                var dataPlayer = string.Empty;
+                var monthListValues = new List<string>();
+                monthListValues.Add("0");
+                var lastValue = new Decimal();
+                for (int i = 8; i <= 10; i++)
+                {
+                    var currentValue = Decimal.Parse(player.GetPropertyValue("month" + i).ToString())
+                                       + Decimal.Parse(player.GetPropertyValue("porreroMonth" + i).ToString())
+                                       + Decimal.Parse(player.GetPropertyValue("drsMonth" + i).ToString());
+                    if (i!=8)
+                    {
+                        currentValue += lastValue;
+                    }
+                    monthListValues.Add(currentValue.ToString(CultureInfo.InvariantCulture));
+                    lastValue = currentValue;
+                }
+                dataPlayer = string.Join(",", monthListValues);
+                dataChart.Datasets.Add(new DatasetsChart
+                {
+                    Label = player.Name,
+                    FillColor = colors[color],
+                    StrokeColor = colorsHards[color],
+                    PointColor = colorsHards[color],
+                    PointHighlightStroke = colorsHards[color],
+                    Data = dataPlayer
+                });
+                color++;
+            }
+
+            var globalPuntuationChartJson = PorraManagerUtils.ConvertObjectToJson(dataChart);
+            //End Chart
+
             var globalPuntuationJson = PorraManagerUtils.ConvertObjectToJson(informationList);
             var globalMonthPorreroPuntuationJson = PorraManagerUtils.ConvertObjectToJson(monthPorreroList);
             var globalMonthPuntuationJson = PorraManagerUtils.ConvertObjectToJson(monthList);
@@ -43,25 +126,35 @@
                 <h2 class="modal-title centerElement">Classificació i puntuacions específiques</h2>
                 <div id="puntuationGraph" class="margin-bottom30">
                 </div>
+                <div id="chart_block" class="center-block">
+                    
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
                 <div class="center-block puntuationSelector">
-                    <ul >
+                    <ul>
                         <li class="margin-bottom10 puntuationSelect">
-                            <button class="sortDesc btn btn-info active btn-sm"><span class="glyphicon"></span>Puntuació + porrero</button>
+                            <button class="chart btn btn-info active btn-sm"><span class="glyphicon"></span>Total gràfic</button>
                         </li>
                         <li class="margin-bottom10 puntuationSelect">
-                            <button class="globalMonth btn btn-info btn-sm"><span class="glyphicon"></span>Puntuació sense porrerro</button>
+                            <button class="sortDesc btn btn-info btn-sm"><span class="glyphicon"></span>Total barres</button>
                         </li>
                         <li class="margin-bottom10 puntuationSelect">
-                            <button class="porrero btn btn-info btn-sm"><span class="glyphicon"></span>Puntuació mes</button>
+                            <button class="globalMonth btn btn-info btn-sm"><span class="glyphicon"></span>Total menys porrerro</button>
+                        </li>
+                        <li class="margin-bottom10 puntuationSelect">
+                            <button class="porrero btn btn-info btn-sm"><span class="glyphicon"></span>Total mes</button>
                         </li>
                         <li class="margin-bottom10 puntuationSelect">
                             <button class="lastPuntuation btn btn-info btn-sm"><span class="glyphicon"></span>Última puntuació</button>
                         </li>
                     </ul>
-        
+
                 </div>
 
                 <script type="text/javascript">
+                    var GlobalPuntuationChartJson = '@Html.Raw(globalPuntuationChartJson)';
+                    var GlobalPuntuationChart = JSON.parse(GlobalPuntuationChartJson);
+
                     var GlobalPuntuationJson = '@Html.Raw(globalPuntuationJson)';
                     var GlobalPuntuation = JSON.parse(GlobalPuntuationJson);
                     var GlobalMonthPorreroPuntuationJson = '@Html.Raw(globalMonthPorreroPuntuationJson)';
@@ -70,7 +163,7 @@
                     var GlobalMonthPuntuation = JSON.parse(GlobalMonthPuntuationJson);
 
                     var puntuations = new Array();
-                    GlobalWithPorrero(GlobalMonthPorreroPuntuation);
+                    //GlobalWithPorrero(GlobalMonthPorreroPuntuation);
                 </script>
 
             }
