@@ -4,7 +4,6 @@
     Layout = "Base.cshtml";
 }
 <!-- I get rendered where the RenderBody tag is on the master template -->
-@section body {
     <div id="top" class="header">
         <div class="vert-text">
             <h1>
@@ -53,6 +52,11 @@
             </div>
         </div>
     </div>
+        <footer>
+            <div>
+                <img src="/img/email.png" height="20"/>
+            </div>
+        </footer>
     <!-- JavaScript -->
     <script src="/scripts/libs/jquery-1.10.2.js"></script>
     <script src="/scripts/libs/bootstrap.js"></script>
@@ -87,5 +91,4 @@
         });
     </script>
     <!-- Here I could either remove the head section, as it is not required -->
-    <!-- Or I can put in specific CSS & JS files into the head tag that are needed for the homepage only -->
-}
+<!-- Or I can put in specific CSS & JS files into the head tag that are needed for the homepage only -->

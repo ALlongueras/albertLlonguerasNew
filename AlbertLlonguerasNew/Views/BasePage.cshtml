@@ -3,12 +3,9 @@
     Layout = "Base.cshtml";
 }
 
-@section body
-{
-    @Umbraco.RenderMacro("Header")
-
-    <p>Porra website</p>
+<section class="internal">
     <div id="content">
         @RenderSection("bodyContent")
     </div>
-}
+</section>
+

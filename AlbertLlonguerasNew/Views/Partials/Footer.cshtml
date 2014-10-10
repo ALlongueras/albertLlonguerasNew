@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+
+<footer>
+    <section class="footer-lower">
+        <div class="row">
+            <div class="columns large-6">
+                <p class="copyright-line">Penya de l'espardenya</p>
+            </div>
+            <div class="columns large-6">
+                @{
+                    var nodeRoot = Model.Content.AncestorOrSelf(1);
+                    IEnumerable<IPublishedContent> children = nodeRoot != null ? nodeRoot.Children : null;                    
+                            if (children.Any())
+                            {
+                                foreach (IPublishedContent node in children.Where(node => node.HasProperty("isItemOfMainMenu") && node.GetPropertyValue("isItemOfMainMenu").ToString() == "True"))
+                                { 
+
+                                    <p class="footerMenuItem">
+                                        <a href="@node.Url()">@node.Name</a>                                        
+                                    </p>
+                                }
+                            }
+                        }
+            </div>
+        </div>
+    </section>
+</footer>
+

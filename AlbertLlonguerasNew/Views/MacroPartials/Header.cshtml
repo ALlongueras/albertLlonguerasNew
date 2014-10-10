@@ -1,40 +1,82 @@
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
-
 @{
-    IPublishedContent nodeRoot = Model.Content.GetPropertyValue("identifier").ToString() != "homePorra" ? Model.Content.Parent : Model.Content;
-    IEnumerable<IPublishedContent> children = nodeRoot != null ? nodeRoot.Children : null;
- }
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="@nodeRoot.Url()">Porra de l'espardenya</a>
-            </div>
+    var t = "t";
+}
+@{
+    var paco = "test";
+    if (Model.Content.Name!="Home")
+    {
+  
+        IPublishedContent nodeRoot = Model.Content.GetPropertyValue("identifier").ToString() != "homePorra" ? Model.Content.Parent : Model.Content;
+        IEnumerable<IPublishedContent> children = nodeRoot != null ? nodeRoot.Children : null;
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    @{
-                        if (children.Any())
-                        {
-                            foreach (IPublishedContent node in children.Where(node => node.HasProperty("isItemOfMainMenu") && node.GetPropertyValue("isItemOfMainMenu").ToString()=="True"))
-                            { 
-                                <li class="page-scroll">
-                                    <a href="@node.Url()">@node.Name</a>
-                                </li>
-                            }  
+
+    var parentNode = Model.Content.AncestorOrSelf(1);
+    <div class="fixed">
+        <div class="show-hide-1 row m-mobile-menu" style="overflow: hidden; display: none;">
+            <div class="columns text-center">
+                <div class="menu-primary-navigation-container">
+                    <ul id="menu-primary-navigation" class="menu">
+                        @{
+                            if (children.Any())
+                            {
+                                foreach (IPublishedContent node in children.Where(node => node.HasProperty("isItemOfMainMenu") && node.GetPropertyValue("isItemOfMainMenu").ToString() == "True"))
+                                { 
+
+                                    <li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18">
+                                        <a href="@node.Url()">@node.Name</a>
+                                    </li>
+                                }
+                            }
                         }
-                    }
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
-    </nav>
-</header>
+        <header class="l-header-internal l-top-bar" style="height: 70px;">
+            <div class="row">
+                <div class="columns large-3 small-3">
+                    <div class="logo" style="line-height: 70px;">
+                        <a href="@parentNode.Url">
+                            <img src="/img/fcbLogo.png" alt="@parentNode.Name">
+                        </a>
+                    </div>
+                    <script>
+                        if (!Modernizr.svg) {
+                            jQuery("#logo").attr('src', 'img/assets/logos/logo-white.png');
+                        }
+                    </script>
+                </div>
+                <div class="columns large-9 text-right hide-for-small">
+                    <div class="menu-primary-navigation-container">
+                        <ul id="menu-primary-navigation-1" class="menu">
+                            @{
+                                if (children.Any())
+                                {
+                                    foreach (IPublishedContent node in children.Where(node => node.HasProperty("isItemOfMainMenu") && node.GetPropertyValue("isItemOfMainMenu").ToString() == "True"))
+                                    { 
+
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18" style="line-height: 70px;">
+                                            <a href="@node.Url()">@node.Name</a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="columns small-9 show-for-small text-right nav">
+                    <div class="menu-primary-navigation-container">
+                        <ul class="menu">
+                            <li class="menu-item" style="line-height: 70px;">
+                                <a class="show-hide-controller-1">Menu</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    }
+}
 

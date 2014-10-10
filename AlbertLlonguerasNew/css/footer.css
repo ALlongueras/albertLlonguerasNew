@@ -1,0 +1,144 @@
+﻿footer
+{
+    color: white;
+}
+
+    footer h1
+    {
+        color: white;
+        letter-spacing: .05em;
+        font-size: 1.4em;
+        font-weight: 600;
+        margin: 2em auto 1em;
+    }
+
+    footer .columns
+    {
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+        footer .columns p, footer .columns li
+        {
+            font-size: .9em;
+            line-height: 1.5em;
+        }
+
+        footer .columns .tweets
+        {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+            footer .columns .tweets li
+            {
+                margin-bottom: 1.7em;
+            }
+
+                footer .columns .tweets li a:hover
+                {
+                    text-decoration: underline;
+                }
+
+                footer .columns .tweets li em
+                {
+                    font-size: .85em;
+                    font-style: normal;
+                    display: block;
+                    margin-top: .6em;
+                }
+
+                    footer .columns .tweets li em a
+                    {
+                        color: #b7b7b7;
+                    }
+
+        footer .columns .twitter-post
+        {
+            margin-bottom: 1.7em;
+        }
+
+            footer .columns .twitter-post p.twitter-body
+            {
+                margin-bottom: .3em;
+            }
+
+            footer .columns .twitter-post time
+            {
+                color: #b7b7b7;
+                font-size: .75em;
+            }
+
+    footer section.footer-upper
+    {
+        background-color: #353535;
+        padding-bottom: 2em;
+    }
+
+        footer section.footer-upper a:hover
+        {
+            text-decoration: none;
+        }
+
+        footer section.footer-upper .social
+        {
+            display: inline-block;
+            height: 3.5em;
+            width: 3.5em;
+            background-color: #3e3e3e;
+            text-align: center;
+            border-radius: 100px;
+            margin-right: .5em;
+            margin-bottom: .5em;
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+            footer section.footer-upper .social i
+            {
+                font-size: 2em;
+                line-height: 1.75em;
+            }
+
+            footer section.footer-upper .social.facebook:hover
+            {
+                background-color: #3a5998;
+            }
+
+            footer section.footer-upper .social.twitter:hover
+            {
+                background-color: #00c3f8;
+            }
+
+            footer section.footer-upper .social.github:hover
+            {
+                background-color: #f25133;
+            }
+
+            footer section.footer-upper .social.linked-in:hover
+            {
+                background-color: #0073b2;
+            }
+
+    footer section.footer-lower
+    {
+        background-color: #262626;
+        color: #b7b7b7;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+    }
+
+        footer section.footer-lower .columns
+        {
+            margin: .5em auto;
+            text-align: center;
+        }
+
+            footer section.footer-lower .columns a
+            {
+                color: white;
+            }
