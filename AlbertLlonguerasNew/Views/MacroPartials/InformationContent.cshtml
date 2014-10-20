@@ -1,0 +1,25 @@
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+<script src="/scripts/informationPage.js"></script>
+
+<h2 class="centerElement">@Model.Content.Name</h2>
+<div id="container">
+    @{
+        var children = Model.Content.Descendants();
+        foreach (var child in children)
+        {
+        <div class="blockItem">
+            <span class="moreIcon">
+                <img src="/img/icons/appbar_add.svg" class="addIcon"/>
+                <img src="/img/icons/appbar_minus.svg" class="minusIcon hidden"/>
+            </span>
+            <h3 class="click">@child.GetPropertyValue("title")</h3>
+            <div class="expand collapse blockItemDescription">
+                @Html.Raw(child.GetPropertyValue("description"))
+            </div>
+            <!-- end expand !-->
+        </div>
+        }
+    }
+</div>
+<!-- end container !-->
+

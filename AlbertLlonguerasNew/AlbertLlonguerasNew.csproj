@@ -243,11 +243,14 @@
     <Content Include="css\stylish-portfolio.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="img\icons\appbar_add.svg" />
+    <Content Include="img\icons\appbar_minus.svg" />
     <Content Include="masterpages\dummy.txt" />
     <Content Include="media\dummy.txt" />
     <Content Include="scripts\Chart.js" />
     <Content Include="scripts\Chart.min.js" />
     <Content Include="scripts\dummy.txt" />
+    <Content Include="scripts\informationPage.js" />
     <Content Include="scripts\libs\bootstrap.js" />
     <Content Include="scripts\libs\bootstrap.min.js" />
     <Content Include="scripts\libs\jqBarGraph.1.1.js" />
@@ -382,6 +385,9 @@
       <Project>{6f1905d3-97c3-437f-a48e-c614049c714b}</Project>
       <Name>Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MacroPartials\InformationContent.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

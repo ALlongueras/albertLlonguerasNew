@@ -15,10 +15,11 @@
         var timeNow = DateTime.Now;
     //var resultTime = time > timeNow ? "still enable" : "closed";
 }
-<p class="hide">is enable? @porraEnable</p>
 @{
     if (!porraEnable)
     {
+        <h2 class="centerElement">Porres del partit @porraNode.Name</h2>
+        <p class="hide">is enable? @porraEnable</p>
         <table class="table-bordered table-striped table-condensed">
             <thead>
                 <tr>
@@ -51,7 +52,7 @@
     }
     else
     {
-        <h2>Porres encara no visibles</h2>
+        <h2 class="centerElement">Porres encara no visibles</h2>
     }
 }
 

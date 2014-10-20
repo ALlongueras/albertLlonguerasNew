@@ -1,7 +1,50 @@
-﻿.margin-bottom10{
+﻿.margin-bottom10
+{
     margin-bottom: 10px;
 }
 
-.margin-bottom30{
+.margin-bottom30
+{
     margin-bottom: 30px !important;
+}
+
+.moreIcon
+{
+    display: inline-block;
+    background: #FE2E64 url(/img/icons/appbar_add.svg);
+    width: 17px;
+    top: 4px;
+    height: 0;
+    padding-top: 17px;
+    overflow: hidden;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: 0;
+    margin-right: 10px;
+    float: left;
+}
+
+.addIcon, .minusIcon
+{
+    position: absolute;
+    top: 0px;
+}
+
+.blockItem
+{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.blockItemDescription
+{
+    padding-left: 35px;
+    padding-right: 25px;
 }
