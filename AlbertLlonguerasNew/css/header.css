@@ -907,6 +907,6 @@ div.logo a
 }
 
 div.logo img {
-    height: 60px;
+    height: auto;
     width: 60px;
 }
