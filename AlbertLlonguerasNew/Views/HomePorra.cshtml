@@ -12,12 +12,12 @@
 
 @section bodyContent {
     
-    <div class="columnsContainer">
-        <div class="col-sm-8">
+    @*<div class="columnsContainer">*@
+        <section class="col-sm-8">
             @Html.Raw(library.RenderMacroContent(@Model.Content.GetPropertyValue("macroContainer").ToString(), Model.Content.Id))
-        </div>
+        </section>
  
-        <div class="col-sm-4">
+        <aside class="col-sm-4">
             <h2>Nova porra</h2>
             @{
                 if (!Members.IsLoggedIn())
@@ -41,6 +41,6 @@
                     }
                 }
             }
-        </div>
-    </div>
+        </aside>
+    @*</div>*@
 }

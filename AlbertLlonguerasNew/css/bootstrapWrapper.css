@@ -1,4 +1,10 @@
-﻿.margin-bottom10
+﻿@media (min-width: 768px) {
+    .col-sm-12 {
+        float: none;
+    }
+}
+
+.margin-bottom10
 {
     margin-bottom: 10px;
 }

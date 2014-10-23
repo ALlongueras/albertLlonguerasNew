@@ -482,6 +482,7 @@ header
     display: block;
 }
 
+
 @media only screen and (min-width: 58.75em)
 {
     .top-bar
@@ -765,7 +766,7 @@ header
             }
 .row
 {
-    max-width: 75em;
+    max-width: 1200px;
 }
 
 @media only screen and (min-width: 768px)
@@ -898,8 +899,8 @@ header
 div.logo a
 {
     float: left;
-    height: 20px;
-    padding: 7px 7px;
+    /*height: 20px;*/
+    padding: 7px 0;
     font-size: 18px;
     line-height: 20px;
     color: white;
