@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Controllers;
 using umbraco;
@@ -64,8 +65,9 @@ namespace Library.Helpers
         public static string GetCurrentMonthOfPrevia(IPublishedContent node)
         {
             node = Utils.GetMatchNode(node);
-            var month = node.GetPropertyValue("matchDay");
-            return month.ToString().Split('/')[0];
+            var month = node.GetPropertyValue("matchDay").ToString();
+            var currentMonth = DateTime.Parse(month).Month;
+            return currentMonth.ToString();
         }
     }
 }

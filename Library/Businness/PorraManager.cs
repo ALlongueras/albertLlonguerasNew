@@ -228,7 +228,7 @@ namespace Library.Businness
             foreach (var playerInformation in informationList)
             {
                 playerInformation.Information.NewInformation.MonthPuntuation = playerInformation.Information.OldInformation.MonthPuntuation;
-                playerInformation.Information.NewInformation.LastScore = playerInformation.Information.OldInformation.LastScore;
+                playerInformation.Information.NewInformation.DRSPuntuation = playerInformation.Information.OldInformation.DRSPuntuation;
                 if (porrerosOfMonth.Contains(playerInformation))
                 {
                     //playerInformation.Information.NewInformation.LastScore += valueOfPorrero;
