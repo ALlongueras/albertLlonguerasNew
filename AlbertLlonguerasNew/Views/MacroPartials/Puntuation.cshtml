@@ -90,12 +90,10 @@
                 var monthListValues = new List<string>();
                 monthListValues.Add("0");
                 var lastValue = new Decimal();
-                for (int i = 8; i <= 10; i++)
+                for (int i = 8; i <= 12; i++)
                 {
-                    var currentValue = Decimal.Parse(player.GetPropertyValue("month" + i).ToString())
-                                       + Decimal.Parse(player.GetPropertyValue("porreroMonth" + i).ToString())
-                                       + Decimal.Parse(player.GetPropertyValue("drsMonth" + i).ToString());
-                    if (i!=8)
+                    var currentValue = Decimal.Parse(player.GetPropertyValue("month" + i).ToString()) + Decimal.Parse(player.GetPropertyValue("porreroMonth" + i).ToString()) + Decimal.Parse(player.GetPropertyValue("drsMonth" + i).ToString());
+                    if (i != 8)
                     {
                         currentValue += lastValue;
                     }
