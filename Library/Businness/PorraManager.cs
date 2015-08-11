@@ -42,7 +42,7 @@ namespace Library.Businness
             informationList = !matchResult.NotDRS ? this.AssignDRSToPlayers(informationList) : informationList;
             var porras = this.GetNewResult(nodes, identifier);
             informationList = this.UpdateResults(porras, informationList, matchResult);
-            this.ApplyDRSToPlayers(informationList);
+            //this.ApplyDRSToPlayers(informationList);
             this.UpdateNewScore(informationList);
             this.AssignPuntuation(informationList);
             return informationList;
@@ -278,10 +278,7 @@ namespace Library.Businness
                 porraNode = Utils.GetMatchNode(porraNode);
                 matchDay = porraNode.GetPropertyValue("matchDay");
             }
-            //where 9 is the number of characters " 12:00:00 AM"
-            //var arrayMatchDay = matchDay.ToString().Substring(0, matchDay.ToString().Length - 12).Split('/');
-            //var porraTime = new DateTime(Int32.Parse(arrayMatchDay[2]), Int32.Parse(arrayMatchDay[0]), Int32.Parse(arrayMatchDay[1]));
-            var porraTime = DateTime.Parse(matchDay.ToString()).AddHours(12);
+            var porraTime = DateTime.Parse(matchDay.ToString());
             return porraTime > DateTime.Now;
         }
 
