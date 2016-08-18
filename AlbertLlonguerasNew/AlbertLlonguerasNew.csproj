@@ -214,6 +214,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\EmailManager.cs" />
+    <Compile Include="Controllers\ManageEvents.cs" />
     <Compile Include="Controllers\NewPorraController.cs" />
     <Compile Include="Controllers\NewResultController.cs" />
     <Compile Include="Controllers\SignInFormController.cs" />
